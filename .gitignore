@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+/.vs
+/src/HelloWorld/x64/Debug
+/src/.vs/HelloWorld/v16
+*.pdb
+*.ilk
