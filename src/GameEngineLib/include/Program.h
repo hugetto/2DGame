@@ -1,16 +1,20 @@
-
 //==============================================================================
 /*
 	Primary application class
-	3/11/2014
-	SDLTutorials.com
-	Tim Jones
+	10/10/2019
+	Hug Beneit
 */
 //==============================================================================
-#include <SDL.h>
-
 #ifndef __APP_H__
 #define __APP_H__
+
+#include <SDL.h>
+#include <SDL_mixer.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <SDL_net.h>
+
+#undef main
 namespace hugGameEngine
 {
 	class App {
