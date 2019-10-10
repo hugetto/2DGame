@@ -35,3 +35,7 @@
 /src/.vs/HelloWorld/v16
 *.pdb
 *.ilk
+/src/.vs/KingApp/v16
+/src/Debug/GameEngineLib
+/src/GameEngineLib/Debug
+/src/HelloWorld/Debug
