@@ -190,9 +190,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\GameEngineLib.h" />
+    <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\Log.h" />
-    <ClInclude Include="include\Program.h" />
+    <ClInclude Include="include\App.h" />
     <ClInclude Include="include\sdlgui\button.h" />
     <ClInclude Include="include\sdlgui\checkbox.h" />
     <ClInclude Include="include\sdlgui\colorpicker.h" />
@@ -231,6 +231,7 @@
     <ClInclude Include="include\sdlgui\vscrollpanel.h" />
     <ClInclude Include="include\sdlgui\widget.h" />
     <ClInclude Include="include\sdlgui\window.h" />
+    <ClInclude Include="include\Vec2.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -245,8 +246,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Program.cpp" />
-    <ClCompile Include="src\GameEngineLib.cpp" />
+    <ClCompile Include="App.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\sdlgui\button.cpp" />
     <ClCompile Include="src\sdlgui\checkbox.cpp" />
     <ClCompile Include="src\sdlgui\colorpicker.cpp" />

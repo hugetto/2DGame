@@ -1,14 +1,18 @@
 //==============================================================================
 /*
-    EntryPoing
+    Specific application implementation Class
     Hug Beneit
 */
 //==============================================================================
 
-#include "MyApp.h"
+#ifndef __MYAPP_H__
+#define __MYAPP_H__
 
+#include <App.h>
 
-int main(int argc, char* argv[])
+class MyApp : public hugGameEngine::App
 {
-    return MyApp::GetInstance()->Execute(argc, argv);
-}
+
+};
+
+#endif //__MYAPP_H__

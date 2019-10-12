@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #define _CRT_SECURE_NO_WARNINGS
-#define	NOMINMAX
+#define    NOMINMAX
 #include "targetver.h"
 
 #ifndef WIN32_LEAN_AND_MEAN
