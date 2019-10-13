@@ -32,8 +32,8 @@ namespace hugGameEngine
         inline vec2&    operator+=  (const vec2& v)         { x += v.x; y += v.y; return *this; }
         inline vec2&    operator-=  (const vec2& v)         { x -= v.x; y -= v.y; return *this; }
         
-        inline vec2&    operator*=  (const& T s)            { x *= s; y *= s; return *this; }
-        inline vec2&    operator/=  (const& T s)            { x /= s; y /= s; return *this; }
+        //inline vec2&    operator*=  (const& vec2 s)         { x *= s; y *= s; return *this; }
+        //inline vec2&    operator/=  (const& vec2 s)         { x /= s; y /= s; return *this; }
 
         inline vec2     operator+   (const T& s) const      { return vec2(x + s, y + s); }
         inline vec2     operator-   (const T& s) const      { return vec2(x - s, y - s); }
@@ -41,9 +41,8 @@ namespace hugGameEngine
         inline vec2     operator/   (const T& s) const      { return vec2(x / s, y / s); }
 
         //Check if the Vectors have the same values (uses pairwise comparison of 'std::tuple' on the x,y values of L and R.
-        inline friend bool operator==(const Vector2d& L, const Vector2d& R) { return std::tie(L.x, L.y) == std::tie(R.x, R.y); }
-        inline friend bool operator!=(const Vector2d& L, const Vector2d& R) { return !(L == R); }
-
+        inline friend bool operator==(const vec2& L, const vec2& R) { return std::tie(L.x, L.y) == std::tie(R.x, R.y); }
+        inline friend bool operator!=(const vec2& L, const vec2& R) { return !(L == R); }
 
         inline void     set         (T x, T y)              { this->x = x; this->y = y; }
 
@@ -63,13 +62,8 @@ namespace hugGameEngine
             return *this;
         }
 
-        inline float dist(vec2 v) const {
-            vec2 d(v.x - x, v.y - y);
-            return d.length();
-        }
-        inline float length() const {
-            return std::sqrt(x * x + y * y);
-        }
+        inline float dist   (vec2 v)    const   { vec2 d(v.x - x, v.y - y); return d.length(); }
+        inline float length ()          const   { return std::sqrt(x * x + y * y); }
         inline void truncate(double length) {
             double angle = atan2f(y, x);
             x = length * cos(angle);
@@ -79,10 +73,10 @@ namespace hugGameEngine
         inline vec2 ortho() const { return vec2(y, -x); }
 
         //Product functions
-        static template<class T>        T   dot     (const vec2& v1, const vec2& v2)    { return v1.x * v2.x + v1.y * v2.y; }
-        static template<class T>        T   cross   (const vec2& v1, const vec2& v2)    { return (v1.x * v2.y) - (v1.y * v2.x); }
-        const template<class T>         T   cross   (const vec2& v2) const              { return (x * v2.y) - (y * v2.x); }
-        const const template<class T>   T   dot     (const vec2& v2) const              { return dot(*this, v2); }
+        inline static float        dot     ( vec2& v1, vec2& v2 )  { return v1.x * v2.x + v1.y * v2.y; }
+        inline static float        cross   ( vec2& v1, vec2& v2 )  { return (v1.x * v2.y) - (v1.y * v2.x); }
+        inline const float         cross   ( vec2& v2 ) const     { return (x * v2.y) - (y * v2.x); }
+        inline const const float   dot     ( vec2& v2 ) const     { return dot(*this, v2); }
 
         inline const vec2   perpCCW() const { return vec2(-y, x); }
         inline const vec2   perpCW()  const { return vec2(y, -x); }

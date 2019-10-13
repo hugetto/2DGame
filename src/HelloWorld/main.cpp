@@ -5,10 +5,10 @@
 */
 //==============================================================================
 
-#include "MyApp.h"
+#include "CMyApp.h"
 
 
 int main(int argc, char* argv[])
 {
-    return MyApp::GetInstance()->Execute(argc, argv);
+    return CMyApp::GetInstance()->Execute(argc, argv);
 }

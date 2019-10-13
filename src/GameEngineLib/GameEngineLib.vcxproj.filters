@@ -107,19 +107,19 @@
     <ClCompile Include="src\sdlgui\nanovg.cpp">
       <Filter>src\sdlgui</Filter>
     </ClCompile>
-    <ClCompile Include="App.cpp">
+    <ClCompile Include="src\CGameObject.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameObject.cpp">
+    <ClCompile Include="src\CApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CRenderable.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="include\Log.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\sdlgui\common.h">
       <Filter>include\sdlgui</Filter>
     </ClInclude>
@@ -234,13 +234,19 @@
     <ClInclude Include="include\sdlgui\combobox.h">
       <Filter>include\sdlgui</Filter>
     </ClInclude>
-    <ClInclude Include="include\App.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GameObject.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\Vec2.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CGameObject.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CApp.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CRenderable.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CLog.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

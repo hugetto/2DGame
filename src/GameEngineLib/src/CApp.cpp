@@ -1,55 +1,60 @@
 #include "pch.h"
-#include <App.h>
-#include <Log.h>
+#include <CApp.h>
+#include <CLog.h>
 
 
 namespace hugGameEngine
 {
-    App App::Instance;
+    CApp CApp::Instance;
 
     //==============================================================================
-    App::App()
+    CApp::CApp()
+    {
+    }
+
+    //==============================================================================
+    CApp::~CApp()
     {
     }
 
     //------------------------------------------------------------------------------
-    void App::OnEvent(SDL_Event* Event)
+    void CApp::OnEvent(SDL_Event* Event)
     {
     }
 
     //------------------------------------------------------------------------------
-    bool App::Init()
+    bool CApp::Init()
     {
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         {
-            Log("Unable to Init SDL: %s", SDL_GetError());
+            CLog("Unable to Init SDL: %s", SDL_GetError());
             return false;
         }
 
         if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
         {
-            Log("Unable to Init hinting: %s", SDL_GetError());
+            CLog("Unable to Init hinting: %s", SDL_GetError());
         }
 
-        if ((Window = SDL_CreateWindow(
+        if ((mWindow = SDL_CreateWindow(
                 "My SDL Game",
                 SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                WindowWidth, WindowHeight, SDL_WINDOW_SHOWN)
+                mWindowWidth, mWindowHeight, SDL_WINDOW_SHOWN)
                 ) == NULL) 
         {
-            Log("Unable to create SDL Window: %s", SDL_GetError());
+            CLog("Unable to create SDL Window: %s", SDL_GetError());
             return false;
         }
 
-        PrimarySurface = SDL_GetWindowSurface(Window);
+        mPrimarySurface = SDL_GetWindowSurface(mWindow);
 
-        if ((Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED)) == NULL)
+        if ((mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED)) == NULL)
         {
-            Log("Unable to create renderer");
+            CLog("Unable to create renderer");
             return false;
         }
 
-        SDL_SetRenderDrawColor(Renderer, 0x00, 0x00, 0x00, 0xFF);
+        SDL_SetRenderDrawColor(mRenderer, 0x00, 0x00, 0x00, 0xFF);
 
         // load support for the JPG and PNG image formats
         int flags = IMG_INIT_JPG | IMG_INIT_PNG;
@@ -77,31 +82,32 @@ namespace hugGameEngine
     }
 
     //------------------------------------------------------------------------------
-    void App::Loop()
+    //Logic loop
+    void CApp::Loop()
     {
     }
 
     //------------------------------------------------------------------------------
-    void App::Render()
+    //Render loop
+    void CApp::Render()
     {
-        SDL_RenderClear(Renderer);
-
-        SDL_RenderPresent(Renderer);
+        SDL_RenderClear(mRenderer);
+        SDL_RenderPresent(mRenderer);
     }
 
     //------------------------------------------------------------------------------
-    void App::Cleanup()
+    void CApp::Cleanup()
     {
-        if (Renderer)
+        if (mRenderer)
         {
-            SDL_DestroyRenderer(Renderer);
-            Renderer = NULL;
+            SDL_DestroyRenderer(mRenderer);
+            mRenderer = NULL;
         }
 
-        if (Window)
+        if (mWindow)
         {
-            SDL_DestroyWindow(Window);
-            Window = NULL;
+            SDL_DestroyWindow(mWindow);
+            mWindow = NULL;
         }
 
         SDLNet_Quit();
@@ -112,20 +118,20 @@ namespace hugGameEngine
     }
 
     //------------------------------------------------------------------------------
-    int App::Execute(int argc, char* argv[])
+    int CApp::Execute(int argc, char* argv[])
     {
         if (!Init()) return 0;
 
         SDL_Event Event;
 
-        while (Running)
+        while (mRunning)
         {
             while (SDL_PollEvent(&Event) != 0)
             {
                 OnEvent(&Event);
 
                 if (Event.type == SDL_QUIT)
-                    Running = false;
+                    mRunning = false;
             }
 
             Loop();
@@ -140,10 +146,8 @@ namespace hugGameEngine
     }
 
     //==============================================================================
-    App* App::GetInstance() { return &App::Instance; }
+    CApp* CApp::GetInstance() { return &CApp::Instance; }
 
-    int App::GetWindowWidth() { return WindowWidth; }
-    int App::GetWindowHeight() { return WindowHeight; }
 
     //==============================================================================
 }

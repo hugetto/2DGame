@@ -20,10 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MyApp.cpp" />
+    <ClCompile Include="CMyApp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyApp.h" />
+    <ClInclude Include="CMyApp.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3B00E08F-134E-4BE2-BA2A-6F1F41FECE36}</ProjectGuid>
@@ -103,7 +103,7 @@
       </Command>
     </CustomBuildStep>
     <PostBuildEvent>
-      <Command>copy $(ProjectDir)..\SDL2-2.0.10\lib\$(PlatformTarget)\*.dll $(OutDir)</Command>
+      <Command>xcopy "$(ProjectDir)..\SDL2-2.0.10\lib\$(PlatformTarget)\*.dll" "$(OutDir)" /i /d /y /e &amp; xcopy "$(ProjectDir)/resources" "$(OutDir)" /i /d /y /e</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Dll Coppy</Message>

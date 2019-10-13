@@ -5,14 +5,16 @@
 */
 //==============================================================================
 
-#ifndef __MYAPP_H__
-#define __MYAPP_H__
+#ifndef __CMYAPP_H__
+#define __CMYAPP_H__
 
-#include <App.h>
+#include <CApp.h>
 
-class MyApp : public hugGameEngine::App
+class CMyApp : public hugGameEngine::CApp
 {
-
+public:
+    CMyApp() {}
+    ~CMyApp() {}
 };
 
-#endif //__MYAPP_H__
+#endif //__CMYAPP_H__
