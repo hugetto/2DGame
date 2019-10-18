@@ -13,6 +13,7 @@
 #include <CScript.h>
 #include <CScriptManager.h>
 #include <CLog.h>
+#include <algorithm>
 #include "AllScripts.inc"
 #include "SMainController.h"
 
@@ -21,22 +22,57 @@
 using namespace hugGameEngine;
 
 namespace MyGame {
-    CMyApp CMyApp::Instance;
+
+    CMyApp CMyApp::sInstance;
+    CMyApp* CMyApp::GetInstance()
+    {
+        return &sInstance;
+    }
 
     int CMyApp::Execute(int argc, char* argv[])
     {
-        int lOk = CApp::Execute(argc, argv);
-        return lOk;
+        mCApp = new CApp();
+        if (!Init())
+            return 0;
+
+        SDL_Event lEvent;
+
+        //FPS limiter
+        float   lInitTime = 0.f;
+        float   lEndTime = 0.f;
+        Uint32  lDelay = 0;
+        while (mRunning)
+        {
+            lInitTime = SDL_GetTicks();
+            while (SDL_PollEvent(&lEvent) != 0)
+            {
+                OnEvent(&lEvent);
+
+                if (lEvent.type == SDL_QUIT)
+                    mRunning = false;
+            }
+
+            Loop(lDelay + mCApp->GetFPSLimit());
+            Render();
+
+            lEndTime = SDL_GetTicks();
+            lDelay = Uint32(std::max(mCApp->GetFPSLimit() - (lEndTime - lInitTime), 0.f));
+            SDL_Delay(lDelay);
+        }
+
+        Cleanup();
+
+        return 1;
     }
 
     void CMyApp::OnEvent(SDL_Event* aEvent)
     {
-        CApp::OnEvent(aEvent);
+        mCApp->OnEvent(aEvent);
     }
 
     bool CMyApp::Init()
     {
-        bool lOk = CApp::Init();
+        bool lOk = mCApp->Init();
 
         //Load main scene config file
         lOk = lOk && CreateObject(MAIN_SCENE);
@@ -45,17 +81,17 @@ namespace MyGame {
 
     void CMyApp::Loop(unsigned int aRenderTime)
     {
-        CApp::Loop(aRenderTime);
+        mCApp->Loop(aRenderTime);
     }
 
     void CMyApp::Render()
     {
-        CApp::Render();
+        mCApp->Render();
     }
 
     void CMyApp::Cleanup()
     {
-        CApp::Cleanup();
+        mCApp->Cleanup();
     }
 
     bool CMyApp::CreateObject(const char* aFileName)
@@ -72,7 +108,7 @@ namespace MyGame {
         const json11::Json lJSON = json11::Json::parse(lMainCfgStr, lError);
         if (!lError.empty())
         {
-            CLog("JSON parse error %s", lError);
+            CLog("JSON parse error %s", lError.c_str());
             SDL_assert(false);
             return false;
         }
@@ -90,7 +126,7 @@ namespace MyGame {
             {
                 CGameObject* lGO = CGameObjectManager::GetInstance()->FindGameObject(lItem["name"].string_value(lOk).c_str());
                 SDL_assert(lGO);
-                CRenderable* lTexture = CTextureManager::GetInstance()->CreateTexture(lItem, lGO, mRenderer);
+                CRenderable* lTexture = CTextureManager::GetInstance()->CreateTexture(lItem, lGO, mCApp->GetRenderer());
                 lGO->AddComponent((CComponent*)lTexture);
                 SDL_assert(lTexture);
             }
@@ -120,12 +156,10 @@ namespace MyGame {
             {
                 CGameObject* lGO = CGameObjectManager::GetInstance()->FindGameObject(lItem["name"].string_value(lOk).c_str());
                 SDL_assert(lGO);
-                CSound* lSound = CSoundManager::GetInstance()->CreateSound(lItem, lGO, mRenderer);
+                CSound* lSound = CSoundManager::GetInstance()->CreateSound(lItem, lGO);
                 SDL_assert(lSound);
             }
         }
         return lOk;
     }
-
-    CMyApp* CMyApp::GetInstance() { return &CMyApp::Instance; }
 }

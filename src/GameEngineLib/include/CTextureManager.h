@@ -20,7 +20,7 @@ namespace hugGameEngine
     class CTextureManager {
     private:
         static CTextureManager sInstance;
-        std::vector< std::unique_ptr < CRenderable > > mRenderableList;
+        std::vector< CRenderable*> mRenderableList;
     public:
         CTextureManager             ();
         ~CTextureManager            ();

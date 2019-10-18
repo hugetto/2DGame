@@ -2,10 +2,16 @@
 #include <CTextureManager.h>
 #include <CRenderable.h>
 #include <CGameObject.h>
+#include <algorithm>
 
 namespace hugGameEngine
 {
     CTextureManager CTextureManager::sInstance;
+
+    bool SortTextureByLayers(CRenderable* aTex1, CRenderable* aTex2)
+    {
+        return (aTex1->GetLayer() > aTex2->GetLayer());
+    }
 
     CTextureManager::CTextureManager()
     {
@@ -14,14 +20,19 @@ namespace hugGameEngine
 
     CTextureManager::~CTextureManager()
     {
-
+        for (CRenderable* lPointer : mRenderableList)
+        {
+            delete(lPointer);
+        }
+        mRenderableList.clear();
     }
 
     CRenderable* CTextureManager::CreateTexture(const json11::Json& aJSON, CGameObject* aGameObject, SDL_Renderer* aRenderer)
     {
-        mRenderableList.push_back(std::make_unique<CRenderable>(aGameObject));
-        CRenderable* lRenderObject = mRenderableList.back().get();
+        mRenderableList.push_back(new CRenderable(aGameObject));
+        CRenderable* lRenderObject = mRenderableList.back();
         lRenderObject->Load(aJSON, aRenderer);
+        std::sort(mRenderableList.begin(), mRenderableList.end(), SortTextureByLayers);
         return lRenderObject;
     }
 
@@ -30,7 +41,7 @@ namespace hugGameEngine
         int lFound = -1;
         for (int i = 0; i< mRenderableList.size(); i++)
         {
-            if (mRenderableList[i].get() == aTexture)
+            if (mRenderableList[i] == aTexture)
             {
                 lFound = i;
                 break;
@@ -45,12 +56,11 @@ namespace hugGameEngine
 
     void CTextureManager::OnRender(SDL_Renderer* aRenderer) const
     {
-        for (std::vector< std::unique_ptr < CRenderable > >::const_iterator lIt = mRenderableList.begin();
+        for (std::vector< CRenderable* >::const_iterator lIt = mRenderableList.begin();
             lIt != mRenderableList.end();
             lIt++)
         {
             (*lIt)->OnRender(aRenderer);
         }
     }
-
 }

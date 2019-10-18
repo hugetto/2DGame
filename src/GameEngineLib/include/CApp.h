@@ -20,9 +20,6 @@ namespace hugGameEngine
     class CApp
     {
     protected:
-        static CApp sInstance;
-
-        bool            mRunning        = true;
         SDL_Window*     mWindow         = nullptr;
         SDL_Renderer*   mRenderer       = nullptr;
         SDL_Surface*    mPrimarySurface = nullptr;
@@ -33,30 +30,30 @@ namespace hugGameEngine
 
     public:
                 CApp();
-        virtual ~CApp();
+        ~CApp();
                 CApp    (const CApp& aGo)   = delete;
         CApp& operator= (const CApp&)       = delete;
-        virtual int Execute(int argc, char* argv[]);
+        int Execute(int argc, char* argv[]);
 
         // Capture SDL Events
-        virtual void OnEvent(SDL_Event* aEvent);
+        void OnEvent(SDL_Event* aEvent);
 
         // Initialize our SDL game / app
-        virtual bool Init();
+        bool Init();
 
         // Logic loop
-        virtual void Loop(unsigned int aRenderTime);
+        void Loop(unsigned int aRenderTime);
 
         // Render loop (draw)
-        virtual void Render();
+        void Render();
 
         // Free up resources
-        virtual void Cleanup();
+        void Cleanup();
 
-        virtual int GetWindowWidth()   const { return mWindowWidth; }
-        virtual int GetWindowHeight()  const { return mWindowHeight; }
-
-        static CApp* GetInstance();
+        inline int              GetWindowWidth      () const { return mWindowWidth; }
+        inline int              GetWindowHeight     () const { return mWindowHeight; }
+        inline float            GetFPSLimit         () const { return mFPSLimit; }
+        inline SDL_Renderer*    GetRenderer         () const { return mRenderer; }
     };
 }
 #endif //__CAPP_H__

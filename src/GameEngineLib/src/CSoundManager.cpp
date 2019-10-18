@@ -13,23 +13,27 @@ namespace hugGameEngine
 
     CSoundManager::~CSoundManager()
     {
-
+        for (CSound* lSound : mChunkList)
+        {
+            delete (lSound);
+        }
+        mChunkList.clear();
     }
 
-    CSound* CSoundManager::CreateSound(const json11::Json& aJSON, CGameObject* aGameObject, SDL_Renderer* aRenderer)
+    CSound* CSoundManager::CreateSound(const json11::Json& aJSON, CGameObject* aGameObject)
     {
-        mSoundList.push_back(std::make_unique<CSound>());
-        CSound* lSound = mSoundList.back().get();
-        lSound->Load(aJSON, aGameObject, aRenderer);
+        mChunkList.push_back(new CSound(aGameObject));
+        CSound* lSound = mChunkList.back();
+        lSound->Load(aJSON, aGameObject);
         return lSound;
     }
 
-    bool CSoundManager::DestroySound(const CSound* aTexture)
+    bool CSoundManager::DestroySound(const CSound* aSound)
     {
         int lFound = -1;
-        for (int i = 0; i < mSoundList.size(); i++)
+        for (int i = 0; i < mChunkList.size(); i++)
         {
-            if (mSoundList[i].get() == aTexture)
+            if (mChunkList[i] == aSound)
             {
                 lFound = i;
                 break;
@@ -37,15 +41,15 @@ namespace hugGameEngine
         }
         if (lFound >= 0)
         {
-            mSoundList.erase(mSoundList.begin() + lFound);
+            mChunkList.erase(mChunkList.begin() + lFound);
         }
         return lFound >= 0;
     }
 
     void CSoundManager::OnRender(SDL_Renderer* aRenderer) const
     {
-        for (std::vector< std::unique_ptr < CSound > >::const_iterator lIt = mSoundList.begin();
-            lIt != mSoundList.end();
+        for (std::vector< CSound* >::const_iterator lIt = mChunkList.begin();
+            lIt != mChunkList.end();
             lIt++)
         {
             //(*lIt)->OnRender(aRenderer);

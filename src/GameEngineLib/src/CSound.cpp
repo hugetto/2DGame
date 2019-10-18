@@ -2,70 +2,206 @@
 #include <CSound.h>
 #include <CGameObject.h>
 #include <CLog.h>
+#include <CSoundProxy.h>
 
 namespace hugGameEngine
 {
     CSound::~CSound()
     {
-        for (std::vector< Mix_Music* >::iterator lIt = mMusicList.begin(); lIt != mMusicList.end(); lIt++)
+        for (Mix_Music* lMusic : mMusicList)
         {
-            Mix_FreeMusic(*lIt);
+            CSoundProxy::GetInstance()->DestroyMusic(lMusic);
         }
         mMusicList.clear();
-        for (std::vector< Mix_Chunk* >::iterator lIt = mSoundList.begin(); lIt != mSoundList.end(); lIt++)
+        for (Mix_Chunk* lChunk : mChunkList)
         {
-            Mix_FreeChunk(*lIt);
+            CSoundProxy::GetInstance()->DestroyChunk(lChunk);
         }
-        mSoundList.clear();
+        mChunkList.clear();
     }
 
-    CSound* CSound::Load(const json11::Json& aJSON, const CGameObject* aGameObject, SDL_Renderer* aRenderer)
+    bool CSound::Load(const json11::Json& aJSON, const CGameObject* aGameObject)
     {
         bool lOk = false;
-        const char* lFileName = aJSON["type"].string_value(lOk).c_str();
-        if (SDL_strcasecmp(aJSON["type"].string_value(lOk).c_str(), "music") == 0)
+
+        const json11::Json& lSoundRes = aJSON["sound_list"];
+        for (const json11::Json& lItem : lSoundRes.array_items(lOk))
         {
-            Mix_Music* lMusic = Mix_LoadMUS(lFileName);
-            SDL_assert(lMusic);
-            if (lMusic == NULL)
+            const char* lFileName = lItem["filename"].string_value(lOk).c_str();
+            const char* lSoundName = lItem["sound_name"].string_value(lOk).c_str();
+            if (lOk && SDL_strcasecmp(lItem["type"].string_value(lOk).c_str(), "music") == 0)
             {
-                CLog("Error loading music file %s, SDL error %s", lFileName, Mix_GetError());
-                return nullptr;
+                Mix_Music* lMusic = CSoundProxy::GetInstance()->CreateMusic(lFileName);
+                SDL_assert(lMusic);
+
+                //Prevent adding duplicated sounds
+                bool lFound = false;
+                for (std::string lName : mMusicNameList)
+                {
+                    lFound = SDL_strcasecmp(lName.c_str(), lSoundName) == 0;
+                }
+                SDL_assert(!lFound); //Duplicated Music audio. check your configuration file please
+                if (!lFound)
+                {
+                    mMusicList.push_back(lMusic);
+                    mMusicNameList.push_back(lSoundName);
+                }
             }
-            mMusicList.push_back(lMusic);
-        }
-        else
-        {
-            Mix_Chunk* lSound = Mix_LoadWAV(lFileName);
-            //SDL_assert(lSound);
-            if (lSound == NULL)
+            else if (lOk && SDL_strcasecmp(lItem["type"].string_value(lOk).c_str(), "chunk") == 0)
             {
-                CLog("Error loading sound file %s, SDL error %s", lFileName, Mix_GetError());
-                return nullptr;
+                Mix_Chunk* lSound = CSoundProxy::GetInstance()->CreateChunk(lFileName);
+                SDL_assert(lSound);
+                //Prevent adding duplicated sounds
+                bool lFound = false;
+                for (std::string lName : mChunkNameList)
+                {
+                    lFound = SDL_strcasecmp(lName.c_str(), lSoundName) == 0;
+                }
+                SDL_assert(!lFound); //Duplicated Chunk audio. check your configuration file please
+                if (!lFound)
+                {
+                    mChunkList.push_back(lSound);
+                    mChunkNameList.push_back(lSoundName);
+                }
             }
-            mSoundList.push_back(lSound);
+            else
+            {
+                SDL_assert(false);
+            }
         }
-        return nullptr;
+        
+        return lOk;
     }
 
     bool CSound::PlaySound(const char* aSoundName)
     {
-        return true;
+        int i = 0;
+        bool lFound = false;
+        for (i = 0; i < mChunkNameList.size(); ++i)
+        {
+            if (SDL_strcasecmp(mChunkNameList[i].c_str(), aSoundName) == 0)
+            {
+                lFound = true;
+                break;
+            }
+        }
+        if (lFound)
+        {
+            if (Mix_Playing(-1) == 0)
+            {
+                //Play the music
+                if (Mix_PlayChannel(-1, mChunkList[i], 0) == -1)
+                {
+                    CLog("Mix_PlayChannel: %s\n", Mix_GetError());
+                    SDL_assert(false);
+                    return false;
+                }
+            }
+            else
+            {
+                CLog("Mix_Playing: %s\n", Mix_GetError());
+                SDL_assert(false);
+            }
+        }
+        return lFound;
     }
 
-    bool CSound::PlayMusic(const char* aSoundName)
+    bool CSound::PlayMusic(const char* aMusicName)
     {
-        return true;
+        int i = 0;
+        bool lFound = false;
+        for (i = 0; i < mMusicNameList.size(); ++i)
+        {
+            if (SDL_strcasecmp(mMusicNameList[i].c_str(), aMusicName) == 0)
+            {
+                lFound = true;
+                break;
+            }
+        }
+        if (lFound)
+        {
+            if (Mix_PlayingMusic() == 0)
+            {
+                //Play the music
+                if (Mix_PlayMusic(mMusicList[i], mLoop ? -1 : 1) == -1)
+                {
+                    CLog("Mix_PlayMusic: %s\n", Mix_GetError());
+                    SDL_assert(false);
+                    return false;
+                }
+            }
+            else
+            {
+                CLog("Mix_PlayingMusic: %s\n", Mix_GetError());
+                SDL_assert(false);
+            }
+        }
+        return lFound;
     }
 
     bool CSound::PauseSound(const char* aSoundName)
     {
-        return true;
+        int i = 0;
+        bool lFound = false;
+        for (i = 0; i < mMusicNameList.size(); ++i)
+        {
+            if (SDL_strcasecmp(mMusicNameList[i].c_str(), aSoundName) == 0)
+            {
+                lFound = true;
+                break;
+            }
+        }
+        if (lFound)
+        {
+            if (Mix_PlayingMusic() == 0)
+            {
+                //Play the music
+                if (Mix_PausedMusic() == -1)
+                {
+                    CLog("Mix_PausedMusic: %s\n", Mix_GetError());
+                    SDL_assert(false);
+                    return false;
+                }
+            }
+            else
+            {
+                CLog("Mix_PausedMusic: %s\n", Mix_GetError());
+                SDL_assert(false);
+            }
+        }
+        return lFound;
     }
 
-    bool CSound::PauseMusic(const char* aSoundName)
+    bool CSound::PauseMusic(const char* aMusicName)
     {
-        return true;
+        int i = 0;
+        bool lFound = false;
+        for (i = 0; i < mMusicNameList.size(); ++i)
+        {
+            if (SDL_strcasecmp(mMusicNameList[i].c_str(), aMusicName) == 0)
+            {
+                lFound = true;
+                break;
+            }
+        }
+        if (lFound)
+        {
+            if (Mix_PlayingMusic() == 0)
+            {
+                //Play the music
+                if (Mix_PausedMusic() == -1)
+                {
+                    CLog("Mix_PausedMusic: %s\n", Mix_GetError());
+                    SDL_assert(false);
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            CLog("Mix_PlayingMusic: %s\n", Mix_GetError());
+        }
+        return lFound;
     }
 
     bool CSound::StopSound(const char* aSoundName)

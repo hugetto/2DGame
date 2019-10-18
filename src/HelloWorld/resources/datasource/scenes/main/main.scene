@@ -10,6 +10,7 @@
     {
         "type" : "Renderable",
         "name" : "test",
+        "layer" : 0,
         "texture_file" : "./datasource/main_menu/bg.jpg",
         "camera_position" : "fixed",
         "flip" : "SDL_FLIP_NONE",
@@ -26,7 +27,7 @@
         "loop" : true,
         "sound_list" : 
         [
-            {"sound_name" : "./datasource/sounds/main/test.wav", "type": "music"}
+            {"sound_name" : "testmain", "filename" :  "./datasource/sounds/main/test2.wav", "type": "chunk"}
         ]
     },
     {

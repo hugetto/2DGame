@@ -10,11 +10,16 @@
 
 #include <CApp.h>
 
+using namespace hugGameEngine;
+
 namespace MyGame {
-    class CMyApp : public hugGameEngine::CApp
+    class CMyApp
     {
     private:
-        static CMyApp Instance;
+        static CMyApp   sInstance;
+        CApp*           mCApp = nullptr;
+        bool            mRunning = true;
+        float           mFPSLimit = 100 / 3;
     public:
         CMyApp() {}
         ~CMyApp() {}
@@ -26,9 +31,6 @@ namespace MyGame {
         void Render();
         void Cleanup();
         bool CreateObject(const char* aFileName);
-
-        int GetWindowWidth()   const { return mWindowWidth; }
-        int GetWindowHeight()  const { return mWindowHeight; }
         static CMyApp* GetInstance();
     };
 }

@@ -71,6 +71,7 @@ namespace hugGameEngine
 
         const char* lTextureFile = aJSON["texture_file"].string_value(lOk, "").c_str();
         mUnique = aJSON["unique"].bool_value(lOk, false);
+        mLayer = aJSON["layer"].int_value(lOk, 0);
 
         if(mUnique)
         {

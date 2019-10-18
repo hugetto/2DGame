@@ -10,7 +10,6 @@
 #include <json11/json11.hpp>
 #include <SDL.h>
 #include <vector>
-#include <memory>
 
 namespace hugGameEngine
 {
@@ -19,7 +18,7 @@ namespace hugGameEngine
     class CGameObjectManager {
     private:
         static CGameObjectManager sInstance;
-        std::vector< std::unique_ptr < CGameObject > > mGameObjectList;
+        std::vector< CGameObject* > mGameObjectList;
     public:
         CGameObjectManager             ();
         ~CGameObjectManager            ();

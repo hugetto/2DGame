@@ -8,14 +8,11 @@
 #include <string>
 #include <fstream>
 #include <streambuf>
-#include <algorithm>
 
 #define MAIN_CFG "./datasource/config/main.cfg"
 
 namespace hugGameEngine
 {
-    CApp CApp::sInstance;
-
     //==============================================================================
     CApp::CApp()
     {
@@ -154,43 +151,4 @@ namespace hugGameEngine
         Mix_CloseAudio();
         SDL_Quit();
     }
-
-    //------------------------------------------------------------------------------
-    int CApp::Execute(int argc, char* argv[])
-    {
-        if (!Init())
-            return 0;
-
-        SDL_Event lEvent;
-
-        //FPS limiter
-        float   lInitTime   = 0.f;
-        float   lEndTime    = 0.f;
-        Uint32  lDelay       = 0;
-        while (mRunning)
-        {
-            lInitTime = SDL_GetTicks();
-            while (SDL_PollEvent(&lEvent) != 0)
-            {
-                OnEvent(&lEvent);
-
-                if (lEvent.type == SDL_QUIT)
-                    mRunning = false;
-            }
-
-            Loop(lDelay + mFPSLimit);
-            Render();
-
-            lEndTime = SDL_GetTicks();
-            lDelay = Uint32(std::max(mFPSLimit - (lEndTime - lInitTime), 0.f));
-            SDL_Delay(lDelay);
-        }
-
-        Cleanup();
-
-        return 1;
-    }
-
-
-    CApp* CApp::GetInstance() { return &CApp::sInstance; }
 }

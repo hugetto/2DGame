@@ -20,8 +20,8 @@ namespace hugGameEngine
 
     CGameObject* CGameObjectManager::CreateGameObject(const json11::Json& aJSON)
     {
-        mGameObjectList.push_back(std::make_unique<CGameObject>());
-        CGameObject* lGameObject = mGameObjectList.back().get();
+        mGameObjectList.push_back(new CGameObject());
+        CGameObject* lGameObject = mGameObjectList.back();
         lGameObject->Load(aJSON);
         return lGameObject;
     }
@@ -29,11 +29,11 @@ namespace hugGameEngine
     CGameObject* CGameObjectManager::FindGameObject(const char* aGameObjectName)
     {
         CGameObject* lRetObject = nullptr;
-        for (std::unique_ptr < CGameObject >& lGameObject : mGameObjectList)
+        for (CGameObject* lGameObject : mGameObjectList)
         {
             if (strcmp(lGameObject->GetName().c_str(), aGameObjectName) == 0)
             {
-                lRetObject = lGameObject.get();
+                lRetObject = lGameObject;
                 break;
             }
         }
@@ -42,11 +42,11 @@ namespace hugGameEngine
 
     bool CGameObjectManager::DestroyGameObject(const CGameObject* aGameObject)
     {
-        std::vector< std::unique_ptr < CGameObject > >::const_iterator lIt = std::begin(mGameObjectList);
+        std::vector< CGameObject* >::const_iterator lIt = std::begin(mGameObjectList);
         bool lFound = false;
         while (lIt != std::end(mGameObjectList))
         {
-            if (aGameObject == (*lIt).get())
+            if (aGameObject == (*lIt))
             {
                 lFound = true;
                 mGameObjectList.erase(lIt);
@@ -68,7 +68,7 @@ namespace hugGameEngine
 
     void CGameObjectManager::Loop(unsigned int aRenderTime)
     {
-        for (std::vector< std::unique_ptr < CGameObject > >::const_iterator lIt = mGameObjectList.begin();
+        for (std::vector< CGameObject* >::const_iterator lIt = mGameObjectList.begin();
             lIt != mGameObjectList.end();
             lIt++)
         {

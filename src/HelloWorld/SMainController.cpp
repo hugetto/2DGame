@@ -4,8 +4,9 @@
 #include <CTextureManager.h>
 #include <CGameObject.h>
 #include <Vec2.h>
+#include <CRenderable.h>
 
-#define PIECE_CFG "./datasource/prefabs/piece.prefab"
+#define PIECE_CFG "./datasource/prefabs/pieces.prefab"
 
 using namespace hugGameEngine;
 
@@ -25,14 +26,15 @@ namespace MyGame {
         //Create all the pieces
         for (int i = 0; i < mPiecesWidth; i++)
         {
-            //Create all the game pieces
             for (int j = 0; j < mPiecesHeight; j++)
             {
-                //CMyApp::GetInstance()->CreateObject(PIECE_CFG);
-                //hugGameEngine::CGameObject* lPiece = hugGameEngine::CGameObjectManager::GetInstance()->FindGameObject("piece");
-                //lPiece->SetName(std::string("piece_") + std::to_string(i) + std::string("_") + std::to_string(j));
-                //lPiece->FindFirstComponent(CComponent::EComponentType::E_Renderable);
-                //lPiece->SetPosition()
+                CMyApp::GetInstance()->CreateObject(PIECE_CFG);
+                hugGameEngine::CGameObject* lPiece = hugGameEngine::CGameObjectManager::GetInstance()->FindGameObject("piece");
+                SDL_assert(lPiece);
+                lPiece->SetName(std::string("piece_") + std::to_string(i) + std::string("_") + std::to_string(j));
+                CComponent* lRenderer = lPiece->FindFirstComponent(CComponent::EComponentType::E_Renderable);
+                Vec2i lPos (i * static_cast<CRenderable*>(lRenderer)->GetWidth(), j* static_cast<CRenderable*>(lRenderer)->GetHeight());
+                lPiece->SetPosition(lPos);
             }
         }
     }

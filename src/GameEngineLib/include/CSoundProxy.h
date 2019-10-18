@@ -9,6 +9,7 @@
 #define __CSOUNDPROXY_H__
 
 #include <SDL.h>
+#include <SDL_mixer.h>
 #include <vector>
 
 namespace hugGameEngine
@@ -18,23 +19,28 @@ namespace hugGameEngine
     class CSoundProxy
     {
     protected:
-        static CSoundProxy sTextureProxyInstance;
+        static CSoundProxy sSoundProxyInstance;
     public:
         enum class EPosition { E_FIXED, E_ABSOLUTE };
     private:
 
-        std::vector< SDL_Texture* >     mTextureList;
-        std::vector< std::string >      mTextureName;
-        std::vector< unsigned int >     mTextureCount;
+        std::vector< Mix_Music* >       mMusicList;
+        std::vector< std::string >      mMusicName;
+        std::vector< unsigned int >     mMusicCount;
+
+        std::vector< Mix_Chunk* >       mChunkList;
+        std::vector< std::string >      mChunkName;
+        std::vector< unsigned int >     mChunkCount;
     public:
                             CSoundProxy       () {}
                            ~CSoundProxy       ();
                             CSoundProxy       (const CSoundProxy& aGo) = delete;
                             CSoundProxy& operator= (const CSoundProxy&) = delete;
-        SDL_Texture*        CreateTexture       (const char* aTexureFile, SDL_Renderer* aRenderer);
-        void                DestroyTexture      (SDL_Texture* aTexture);
-        void                DestroyTexture      (const char* aTexureFile);
-        static CSoundProxy* GetInstance       ()          { return &CSoundProxy::sTextureProxyInstance; }
+        Mix_Music*          CreateMusic         (const char* aMusicFile);
+        Mix_Chunk*          CreateChunk         (const char* aMusicFile);
+        bool                DestroyMusic        (Mix_Music* aMusic);
+        bool                DestroyChunk        (Mix_Chunk* aChunk);
+        static CSoundProxy* GetInstance         ()          { return &CSoundProxy::sSoundProxyInstance; }
     };
 }
 #endif

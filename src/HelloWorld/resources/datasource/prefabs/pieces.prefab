@@ -1,0 +1,29 @@
+[
+    {
+        "type" : "GameObject",
+        "name" : "piece",
+        "position" : [0,0],
+        "rotation" : 0.0,
+        "scale" : [1.0, 1.0],
+        "enabled" : true
+    },
+    {
+        "type" : "Renderable",
+        "name" : "piece",
+        "layer" : 1,
+        "texture_file" : "./datasource/main_menu/piece1.png",
+        "camera_position" : "fixed",
+        "flip" : "SDL_FLIP_NONE",
+        "unique" : false
+    },
+    {
+        "type" : "Sound",
+        "name" : "piece",
+        "loop" : true,
+        "sound_list" : 
+        [
+            {"sound_name" : "test1", "filename" : "./datasource/sounds/main/test.wav", "type": "music"},
+            {"sound_name" : "test2", "filename" :  "./datasource/sounds/main/test2.wav", "type": "chunk"}
+        ]
+    }
+]

@@ -5,25 +5,33 @@
 
 namespace hugGameEngine
 {
-    CSoundProxy CSoundProxy::sTextureProxyInstance;
+    CSoundProxy CSoundProxy::sSoundProxyInstance;
 
     CSoundProxy::~CSoundProxy()
     {
-        for (SDL_Texture* lTexture : mTextureList)
+        for (std::vector< Mix_Music* >::iterator lIt = mMusicList.begin(); lIt != mMusicList.end(); lIt++)
         {
-            SDL_DestroyTexture(lTexture);
+            Mix_FreeMusic(*lIt);
         }
-        mTextureList.clear();
-        mTextureName.clear();
-        mTextureCount.clear();
+        for (std::vector< Mix_Chunk* >::iterator lIt = mChunkList.begin(); lIt != mChunkList.end(); lIt++)
+        {
+            Mix_FreeChunk(*lIt);
+        }
+        mMusicList.clear();
+        mMusicName.clear();
+        mMusicCount.clear();
+
+        mChunkList.clear();
+        mChunkName.clear();
+        mChunkCount.clear();
     }
 
-    SDL_Texture* CSoundProxy::CreateTexture(const char* aTexureFile, SDL_Renderer* aRenderer)
+    Mix_Music* CSoundProxy::CreateMusic(const char* aMusicFile)
     {
         int lFound = -1;
-        for (int i = 0; i < mTextureName.size(); i++)
+        for (int i = 0; i < mMusicName.size(); i++)
         {
-            if (SDL_strcasecmp(mTextureName[i].c_str(), aTexureFile) == 0)
+            if (SDL_strcasecmp(mMusicName[i].c_str(), aMusicFile) == 0)
             {
                 lFound = i;
                 break;
@@ -32,37 +40,66 @@ namespace hugGameEngine
 
         if (lFound >= 0)
         {
-            mTextureCount[lFound]++;
-            return mTextureList[lFound];
+            mMusicCount[lFound]++;
+            return mMusicList[lFound];
         }
         else
         {
-            SDL_Surface* lTempSurface = IMG_Load(aTexureFile);
-            SDL_assert(lTempSurface);
-            if (lTempSurface == 0)
+            Mix_Music* lMusic = Mix_LoadMUS(aMusicFile);
+            SDL_assert(lMusic);
+            if (lMusic == NULL)
             {
-                CLog("Cannot load the image file %s, sdl_error: %s", aTexureFile, SDL_GetError());
+                CLog("Error loading music file %s, SDL error %s", aMusicFile, Mix_GetError());
                 return nullptr;
             }
+            mMusicList.push_back(lMusic);
+            mMusicName.push_back(std::string(aMusicFile));
+            mMusicCount.push_back(1);
 
-            SDL_Texture* lTexture = SDL_CreateTextureFromSurface(aRenderer, lTempSurface);
-            SDL_FreeSurface(lTempSurface);
-            SDL_assert(lTexture);
-            if (lTexture != 0)
-            {
-                mTextureList.push_back(lTexture);
-                mTextureName.push_back(std::string(aTexureFile));
-                mTextureCount.push_back(1);
-            }
-            return lTexture;
+            return lMusic;
         }
     }
-    void CSoundProxy::DestroyTexture(SDL_Texture* aTexture)
+
+    Mix_Chunk* CSoundProxy::CreateChunk(const char* aChunkFile)
     {
         int lFound = -1;
-        for (int i = 0; i < mTextureList.size(); i++)
+        for (int i = 0; i < mChunkName.size(); i++)
         {
-            if (mTextureList[i] == aTexture)
+            if (SDL_strcasecmp(mChunkName[i].c_str(), aChunkFile) == 0)
+            {
+                lFound = i;
+                break;
+            }
+        }
+
+        if (lFound >= 0)
+        {
+            mChunkCount[lFound]++;
+            return mChunkList[lFound];
+        }
+        else
+        {
+            Mix_Chunk* lChunk = Mix_LoadWAV(aChunkFile);
+            SDL_assert(lChunk);
+            if (lChunk == NULL)
+            {
+                CLog("Error loading Chunk file %s, SDL error %s", aChunkFile, Mix_GetError());
+                return nullptr;
+            }
+            mChunkList.push_back(lChunk);
+            mChunkName.push_back(std::string(aChunkFile));
+            mChunkCount.push_back(1);
+
+            return lChunk;
+        }
+    }
+
+    bool CSoundProxy::DestroyMusic(Mix_Music* aMusic)
+    {
+        int lFound = -1;
+        for (int i = 0; i < mMusicList.size(); i++)
+        {
+            if (mMusicList[i] == aMusic)
             {
                 lFound = i;
                 break;
@@ -70,22 +107,25 @@ namespace hugGameEngine
         }
         if (lFound >= 0)
         {
-            mTextureCount[lFound]--;
-            if (mTextureCount[lFound] == 0)
+            mMusicCount[lFound]--;
+            if (mMusicCount[lFound] == 0)
             {
-                SDL_DestroyTexture(mTextureList[lFound]);
-                mTextureList.erase(mTextureList.begin() + lFound);
-                mTextureName.erase(mTextureName.begin() + lFound);
-                mTextureCount.erase(mTextureCount.begin() + lFound);
+                Mix_FreeMusic(mMusicList[lFound]);
+                mMusicList.erase(mMusicList.begin() + lFound);
+                mMusicName.erase(mMusicName.begin() + lFound);
+                mMusicCount.erase(mMusicCount.begin() + lFound);
             }
+            return true;
         }
+        return false;
     }
-    void CSoundProxy::DestroyTexture(const char* aTexureFile)
+
+    bool CSoundProxy::DestroyChunk(Mix_Chunk* aChunk)
     {
         int lFound = -1;
-        for (int i = 0; i < mTextureName.size(); i++)
+        for (int i = 0; i < mChunkList.size(); i++)
         {
-            if (SDL_strcasecmp(mTextureName[i].c_str(), aTexureFile) == 0)
+            if (mChunkList[i] == aChunk)
             {
                 lFound = i;
                 break;
@@ -93,14 +133,16 @@ namespace hugGameEngine
         }
         if (lFound >= 0)
         {
-            mTextureCount[lFound]--;
-            if (mTextureCount[lFound] == 0)
+            mChunkCount[lFound]--;
+            if (mChunkCount[lFound] == 0)
             {
-                SDL_DestroyTexture(mTextureList[lFound]);
-                mTextureList.erase(mTextureList.begin() + lFound);
-                mTextureName.erase(mTextureName.begin() + lFound);
-                mTextureCount.erase(mTextureCount.begin() + lFound);
+                Mix_FreeChunk(mChunkList[lFound]);
+                mChunkList.erase(mChunkList.begin() + lFound);
+                mChunkName.erase(mChunkName.begin() + lFound);
+                mChunkCount.erase(mChunkCount.begin() + lFound);
             }
+            return true;
         }
+        return false;
     }
 }
