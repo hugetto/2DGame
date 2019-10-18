@@ -5,10 +5,13 @@
 */
 //==============================================================================
 
-#include "CMyApp.h"
+#include "pch.h"
+
 
 
 int main(int argc, char* argv[])
 {
-    return CMyApp::GetInstance()->Execute(argc, argv);
+    int lResult = MyGame::CMyApp::GetInstance()->Execute(argc, argv);
+    _CrtDumpMemoryLeaks();
+    return lResult;
 }

@@ -125,6 +125,33 @@
     <ClCompile Include="src\json11\json11.cpp">
       <Filter>src\json11</Filter>
     </ClCompile>
+    <ClCompile Include="src\CTextureManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CGameObjectManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CCamera.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CTextureProxy.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CScript.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CSound.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CSoundManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CSoundProxy.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CScriptManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -260,6 +287,36 @@
     </ClInclude>
     <ClInclude Include="include\json11\json11.hpp">
       <Filter>include\json11</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CTextureManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CGameObjectManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CCamera.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CTextureProxy.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CScript.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CSoundManager.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CSound.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CSoundProxy.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CComponent.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CScriptManager.h">
+      <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

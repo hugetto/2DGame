@@ -1,0 +1,36 @@
+[
+    {
+        "type" : "GameObject",
+        "name" : "test",
+        "position" : [0,0],
+        "rotation" : 0.0,
+        "scale" : [1.0, 1.0],
+        "enabled" : true
+    },
+    {
+        "type" : "Renderable",
+        "name" : "test",
+        "texture_file" : "./datasource/main_menu/bg.jpg",
+        "camera_position" : "fixed",
+        "flip" : "SDL_FLIP_NONE",
+        "unique" : false
+    },
+    {
+        "type" : "Script",
+        "name" : "test",
+        "script_name" : "SMainController"
+    },
+    {
+        "type" : "Sound",
+        "name" : "test",
+        "loop" : true,
+        "sound_list" : 
+        [
+            {"sound_name" : "./datasource/sounds/main/test.wav", "type": "music"}
+        ]
+    },
+    {
+        "type" : "Network",
+        "name" : "test"
+    }
+]

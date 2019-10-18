@@ -1,11 +1,20 @@
 #include "pch.h"
 #include <CApp.h>
 #include <CLog.h>
+#include <CTextureManager.h>
+#include <CGameObjectManager.h>
+#include <CScriptManager.h>
+#include <json11/json11.hpp>
+#include <string>
+#include <fstream>
+#include <streambuf>
+#include <algorithm>
 
+#define MAIN_CFG "./datasource/config/main.cfg"
 
 namespace hugGameEngine
 {
-    CApp CApp::Instance;
+    CApp CApp::sInstance;
 
     //==============================================================================
     CApp::CApp()
@@ -18,29 +27,39 @@ namespace hugGameEngine
     }
 
     //------------------------------------------------------------------------------
-    void CApp::OnEvent(SDL_Event* Event)
+    void CApp::OnEvent(SDL_Event* aEvent)
     {
     }
 
     //------------------------------------------------------------------------------
     bool CApp::Init()
     {
+        //Read Main Configuration File
+        std::ifstream lMainCfg(MAIN_CFG);
+        std::string lMainCfgStr ((std::istreambuf_iterator<char>(lMainCfg)), std::istreambuf_iterator<char>());
+        std::string lError;
+        //Parse configuration file as JSON
+        const json11::Json lJSON = json11::Json::parse(lMainCfgStr, lError);
+
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         {
             CLog("Unable to Init SDL: %s", SDL_GetError());
             return false;
         }
 
-        if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
+        bool lOk = false;
+        if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, lJSON["render_quality"].string_value(lOk, "1").c_str()))
         {
             CLog("Unable to Init hinting: %s", SDL_GetError());
         }
 
+        mWindowWidth = lJSON["window_width"].int_value(lOk, 1024);
+        mWindowHeight = lJSON["window_height"].int_value(lOk, 640);
         if ((mWindow = SDL_CreateWindow(
-                "My SDL Game",
-                SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                mWindowWidth, mWindowHeight, SDL_WINDOW_SHOWN)
-                ) == NULL) 
+            lJSON["game_name"].string_value(lOk, "error setting game name").c_str(),
+            SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+            mWindowWidth, mWindowHeight, SDL_WINDOW_SHOWN)
+            ) == NULL) 
         {
             CLog("Unable to create SDL Window: %s", SDL_GetError());
             return false;
@@ -48,7 +67,7 @@ namespace hugGameEngine
 
         mPrimarySurface = SDL_GetWindowSurface(mWindow);
 
-        if ((mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED)) == NULL)
+        if ((mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)) == NULL)
         {
             CLog("Unable to create renderer");
             return false;
@@ -57,41 +76,60 @@ namespace hugGameEngine
         SDL_SetRenderDrawColor(mRenderer, 0x00, 0x00, 0x00, 0xFF);
 
         // load support for the JPG and PNG image formats
-        int flags = IMG_INIT_JPG | IMG_INIT_PNG;
-        int initted = IMG_Init(flags);
-        if ((initted & flags) != flags)
+        int lFlags = IMG_INIT_JPG | IMG_INIT_PNG;
+        int lInitted = IMG_Init(lFlags);
+        if ((lInitted & lFlags) != lFlags)
         {
-            printf("IMG_Init: Failed to init required jpg and png support!\n");
-            printf("IMG_Init: %s\n", IMG_GetError());
+            CLog("IMG_Init: Failed to init required jpg and png support!\n");
+            CLog("IMG_Init: %s\n", IMG_GetError());
             return false;
         }
 
         if (TTF_Init() == -1)
         {
-            printf("TTF_Init: %s\n", TTF_GetError());
+            CLog("TTF_Init: %s\n", TTF_GetError());
+            return false;
+        }
+
+        if (Mix_OpenAudio(lJSON["frequency"].int_value(lOk, 22050), MIX_DEFAULT_FORMAT, 2, 4096) == -1)
+        {
+            CLog("Mix_OpenAudio: %s\n", Mix_GetError());
             return false;
         }
 
         if (SDLNet_Init() == -1)
         {
-            printf("SDLNet_Init: %s\n", SDLNet_GetError());
+            CLog("SDLNet_Init: %s\n", SDLNet_GetError());
             return false;
         }
 
-        return true;
+        if (lJSON["limit_fps"].is_number())
+        {
+            int lFps = lJSON["limit_fps"].int_value(lOk, 30);
+            SDL_assert(lFps > 0);
+            mFPSLimit = 1000.f/ lFps;
+        }
+
+        return lOk;
     }
 
     //------------------------------------------------------------------------------
     //Logic loop
-    void CApp::Loop()
+    void CApp::Loop(unsigned int aRenderTime)
     {
+        CGameObjectManager::GetInstance()->Loop(aRenderTime);
+        CScriptManager::GetInstance()->Loop(aRenderTime);
     }
 
     //------------------------------------------------------------------------------
     //Render loop
     void CApp::Render()
     {
-        SDL_RenderClear(mRenderer);
+        if (SDL_RenderClear(mRenderer) != 0)
+        {
+            CLog("Unable to Render SDL: %s", SDL_GetError());
+        }
+        CTextureManager::GetInstance()->OnRender(mRenderer);
         SDL_RenderPresent(mRenderer);
     }
 
@@ -120,24 +158,32 @@ namespace hugGameEngine
     //------------------------------------------------------------------------------
     int CApp::Execute(int argc, char* argv[])
     {
-        if (!Init()) return 0;
+        if (!Init())
+            return 0;
 
-        SDL_Event Event;
+        SDL_Event lEvent;
 
+        //FPS limiter
+        float   lInitTime   = 0.f;
+        float   lEndTime    = 0.f;
+        Uint32  lDelay       = 0;
         while (mRunning)
         {
-            while (SDL_PollEvent(&Event) != 0)
+            lInitTime = SDL_GetTicks();
+            while (SDL_PollEvent(&lEvent) != 0)
             {
-                OnEvent(&Event);
+                OnEvent(&lEvent);
 
-                if (Event.type == SDL_QUIT)
+                if (lEvent.type == SDL_QUIT)
                     mRunning = false;
             }
 
-            Loop();
+            Loop(lDelay + mFPSLimit);
             Render();
 
-            SDL_Delay(1); // Breath
+            lEndTime = SDL_GetTicks();
+            lDelay = Uint32(std::max(mFPSLimit - (lEndTime - lInitTime), 0.f));
+            SDL_Delay(lDelay);
         }
 
         Cleanup();
@@ -145,6 +191,6 @@ namespace hugGameEngine
         return 1;
     }
 
-    //==============================================================================
-    CApp* CApp::GetInstance() { return &CApp::Instance; }
+
+    CApp* CApp::GetInstance() { return &CApp::sInstance; }
 }

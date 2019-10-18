@@ -16,8 +16,8 @@ namespace hugGameEngine
     class vec2 {
     public:
         /*The x and y values are public to give easier access for
-      outside funtions. Accessors and mutators are not really
-      necessary*/
+        outside funtions. Accessors and mutators are not really
+        necessary*/
         T x, y;
 
         //always initialize class members in the constructor
@@ -75,8 +75,8 @@ namespace hugGameEngine
         //Product functions
         inline static float        dot     ( vec2& v1, vec2& v2 )  { return v1.x * v2.x + v1.y * v2.y; }
         inline static float        cross   ( vec2& v1, vec2& v2 )  { return (v1.x * v2.y) - (v1.y * v2.x); }
-        inline const float         cross   ( vec2& v2 ) const     { return (x * v2.y) - (y * v2.x); }
-        inline const const float   dot     ( vec2& v2 ) const     { return dot(*this, v2); }
+        inline const float         cross   ( vec2& v2 ) const      { return (x * v2.y) - (y * v2.x); }
+        inline const const float   dot     ( vec2& v2 ) const      { return dot(*this, v2); }
 
         inline const vec2   perpCCW() const { return vec2(-y, x); }
         inline const vec2   perpCW()  const { return vec2(y, -x); }
@@ -85,6 +85,7 @@ namespace hugGameEngine
 
     typedef vec2<float> Vec2;
     typedef vec2<double> Vec2d;
+    typedef vec2<int> Vec2i;
 
 #define PI 3.14159265359
     template <class T>
