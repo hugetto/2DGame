@@ -1,10 +1,10 @@
 #include "pch.h"
-#include <CSoundManager.h>
+#include <managers/CSoundManager.h>
 #include <CSound.h>
 
 namespace hugGameEngine
 {
-    CSoundManager CSoundManager::sInstance;
+    CSoundManager CSoundManager::sSoundManagerInstance;
 
     CSoundManager::CSoundManager()
     {
@@ -44,15 +44,4 @@ namespace hugGameEngine
         }
         return lFound >= 0;
     }
-
-    void CSoundManager::OnRender(SDL_Renderer* aRenderer) const
-    {
-        for (std::vector< CSound* >::const_iterator lIt = mChunkList.begin();
-            lIt != mChunkList.end();
-            lIt++)
-        {
-            //(*lIt)->OnRender(aRenderer);
-        }
-    }
-
 }

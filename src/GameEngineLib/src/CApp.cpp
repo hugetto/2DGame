@@ -1,9 +1,9 @@
 #include "pch.h"
 #include <CApp.h>
-#include <CLog.h>
-#include <CTextureManager.h>
-#include <CGameObjectManager.h>
-#include <CScriptManager.h>
+#include <utils/CLog.h>
+#include <managers/CTextureManager.h>
+#include <managers/CGameObjectManager.h>
+#include <managers/CScriptManager.h>
 #include <json11/json11.hpp>
 #include <string>
 #include <fstream>

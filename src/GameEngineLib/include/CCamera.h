@@ -7,7 +7,7 @@
 #ifndef __CCAMERA_H__
 #define __CCAMERA_H__
 
-#include <Vec2.h>
+#include <utils/Vec2.h>
 
 namespace hugGameEngine
 {

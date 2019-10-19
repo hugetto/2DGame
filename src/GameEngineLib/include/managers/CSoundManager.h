@@ -19,22 +19,20 @@ namespace hugGameEngine
 
     class CSoundManager {
     private:
-        static CSoundManager    sInstance;
+        static CSoundManager    sSoundManagerInstance;
         std::vector< CSound* >  mChunkList;
         int                     mGlobalVolume   = MIX_MAX_VOLUME;
         int                     mMusicVolume    = MIX_MAX_VOLUME;
         int                     mChunksVolume   = MIX_MAX_VOLUME;
     public:
-        CSoundManager();
-        ~CSoundManager();
+        CSoundManager   ();
+        ~CSoundManager  ();
         CSoundManager(const CSoundManager& aGo) = delete;
         CSoundManager& operator=  (const CSoundManager&) = delete;
 
-        inline static CSoundManager* GetInstance() { return &CSoundManager::sInstance; }
-
-        CSound*         CreateSound(const json11::Json& aJSON, CGameObject* aGameObject);
-        bool            DestroySound(const CSound* aTexture);
-        void            OnRender(SDL_Renderer* aRenderer) const;
+        CSound*                 CreateSound     (const json11::Json& aJSON, CGameObject* aGameObject);
+        bool                    DestroySound    (const CSound* aTexture);
+        static CSoundManager*   GetInstance() { return &CSoundManager::sSoundManagerInstance; }
     };
 }
 

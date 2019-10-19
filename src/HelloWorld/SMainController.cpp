@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "SMainController.h"
-#include <CGameObjectManager.h>
-#include <CTextureManager.h>
+#include <managers/CGameObjectManager.h>
+#include <managers/CTextureManager.h>
 #include <CGameObject.h>
-#include <Vec2.h>
+#include <utils/Vec2.h>
 #include <CRenderable.h>
 
 #define PIECE_CFG "./datasource/prefabs/pieces.prefab"

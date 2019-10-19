@@ -1,5 +1,5 @@
 #include "pch.h"
-#include <CScriptManager.h>
+#include <managers/CScriptManager.h>
 #include <CRenderable.h>
 #include <CGameObject.h>
 #include <CScript.h>

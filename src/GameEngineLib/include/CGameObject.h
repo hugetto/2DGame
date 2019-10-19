@@ -8,7 +8,7 @@
 #define __GAMEOBJECT_H__
 
 #include <json11/json11.hpp>
-#include <Vec2.h>
+#include <utils/Vec2.h>
 #include <string>
 #include <vector>
 #include <SDL.h>

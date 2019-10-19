@@ -1,14 +1,14 @@
 #include "pch.h"
-#include <CLog.h>
+#include <utils/CLog.h>
 #include <CRenderable.h>
 #include <SDL_image.h>
 #include <json11/json11.hpp>
 #include <fstream>
 #include <streambuf>
-#include <Vec2.h>
+#include <utils/Vec2.h>
 #include <CGameObject.h>
 #include <CCamera.h>
-#include <CTextureProxy.h>
+#include <proxy/CTextureProxy.h>
 #include <CApp.h>
 
 namespace hugGameEngine

@@ -1,7 +1,7 @@
 #include "pch.h"
-#include <CSoundProxy.h>
+#include <proxy/CSoundProxy.h>
 #include <SDL_image.h>
-#include <CLog.h>
+#include <utils/CLog.h>
 
 namespace hugGameEngine
 {

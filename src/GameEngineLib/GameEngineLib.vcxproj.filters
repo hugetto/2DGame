@@ -17,6 +17,21 @@
     <Filter Include="src\json11">
       <UniqueIdentifier>{3d9ef558-4ce8-40eb-8fa8-7c59356af71c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\managers">
+      <UniqueIdentifier>{4fe386ce-046c-4b10-9a6f-673916e4dfc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\proxy">
+      <UniqueIdentifier>{49befc82-f23f-4298-8f73-33f5d0e9cc5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\utils">
+      <UniqueIdentifier>{541c8e2c-a471-49e8-8612-178932e35c3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\managers">
+      <UniqueIdentifier>{f8c86329-6eed-4c04-b5b2-4857e6150ca9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\proxy">
+      <UniqueIdentifier>{f093e9fc-fdf4-4017-9aae-67d34355cc46}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -32,16 +47,7 @@
     <ClCompile Include="src\json11\json11.cpp">
       <Filter>src\json11</Filter>
     </ClCompile>
-    <ClCompile Include="src\CTextureManager.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CGameObjectManager.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\CCamera.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CTextureProxy.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\CScript.cpp">
@@ -50,22 +56,28 @@
     <ClCompile Include="src\CSound.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\CSoundManager.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\proxy\CSoundProxy.cpp">
+      <Filter>src\proxy</Filter>
     </ClCompile>
-    <ClCompile Include="src\CSoundProxy.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\proxy\CTextureProxy.cpp">
+      <Filter>src\proxy</Filter>
     </ClCompile>
-    <ClCompile Include="src\CScriptManager.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\managers\CScriptManager.cpp">
+      <Filter>src\managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\managers\CSoundManager.cpp">
+      <Filter>src\managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\managers\CTextureManager.cpp">
+      <Filter>src\managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\managers\CGameObjectManager.cpp">
+      <Filter>src\managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="include\Vec2.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\CGameObject.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -75,41 +87,44 @@
     <ClInclude Include="include\CRenderable.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\CLog.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\json11\json11.hpp">
       <Filter>include\json11</Filter>
     </ClInclude>
-    <ClInclude Include="include\CTextureManager.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\CGameObjectManager.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\CCamera.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\CTextureProxy.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\CScript.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\CSoundManager.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\CSound.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\CSoundProxy.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\CComponent.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\CScriptManager.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\managers\CScriptManager.h">
+      <Filter>include\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\managers\CSoundManager.h">
+      <Filter>include\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\managers\CTextureManager.h">
+      <Filter>include\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\managers\CGameObjectManager.h">
+      <Filter>include\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\proxy\CTextureProxy.h">
+      <Filter>include\proxy</Filter>
+    </ClInclude>
+    <ClInclude Include="include\proxy\CSoundProxy.h">
+      <Filter>include\proxy</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\Vec2.h">
+      <Filter>include\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\CLog.h">
+      <Filter>include\utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

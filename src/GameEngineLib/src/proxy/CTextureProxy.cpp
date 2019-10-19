@@ -1,7 +1,7 @@
 #include "pch.h"
-#include <CTextureProxy.h>
+#include <proxy/CTextureProxy.h>
 #include <SDL_image.h>
-#include <CLog.h>
+#include <utils/CLog.h>
 
 namespace hugGameEngine
 {

@@ -17,21 +17,21 @@ namespace MyGame {
     {
     private:
         static CMyApp   sInstance;
-        CApp*           mCApp = nullptr;
-        bool            mRunning = true;
-        float           mFPSLimit = 100 / 3;
+        CApp*           mCApp       = nullptr;
+        bool            mRunning    = true;
+        float           mFPSLimit   = 100 / 3;
     public:
-        CMyApp() {}
-        ~CMyApp() {}
+                        CMyApp          () {}
+                       ~CMyApp          () {}
 
-        int Execute(int argc, char* argv[]);
-        void OnEvent(SDL_Event* aEvent);
-        bool Init();
-        void Loop(Uint32 aRenderTime);
-        void Render();
-        void Cleanup();
-        bool CreateObject(const char* aFileName);
-        static CMyApp* GetInstance();
+        int             Execute         (int argc, char* argv[]);
+        void            OnEvent         (SDL_Event* aEvent);
+        bool            Init            ();
+        void            Loop            (Uint32 aRenderTime);
+        void            Render          ();
+        void            Cleanup         ();
+        bool            CreateObject    (const char* aFileName);
+        static CMyApp*  GetInstance     ();
     };
 }
 #endif //__CMYAPP_H__

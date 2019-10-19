@@ -1,8 +1,8 @@
 #include "pch.h"
 #include <CSound.h>
 #include <CGameObject.h>
-#include <CLog.h>
-#include <CSoundProxy.h>
+#include <utils/CLog.h>
+#include <proxy/CSoundProxy.h>
 
 namespace hugGameEngine
 {

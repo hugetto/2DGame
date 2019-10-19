@@ -1,8 +1,8 @@
 #include "pch.h"
-#include <CGameObjectManager.h>
+#include <managers/CGameObjectManager.h>
 #include <CGameObject.h>
 #include <algorithm>
-#include <CLog.h>
+#include <utils/CLog.h>
 
 namespace hugGameEngine
 {
