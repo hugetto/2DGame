@@ -70,6 +70,7 @@ namespace hugGameEngine
                 SDL_assert(false);
             }
             mVolume = lItem["volume"].int_value(mVolume);
+            mLoop = lItem["loop"].bool_value();
         }
         
         return lOk;
@@ -139,7 +140,6 @@ namespace hugGameEngine
             else
             {
                 CLog("Mix_PlayingMusic: %s\n", Mix_GetError());
-                SDL_assert(false);
             }
         }
         return lFound;

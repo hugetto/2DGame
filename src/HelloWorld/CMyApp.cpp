@@ -127,8 +127,8 @@ namespace MyGame {
                 CGameObject* lGO = CGameObjectManager::GetInstance()->FindGameObject(lItem["name"].string_value(lOk).c_str());
                 SDL_assert(lGO);
                 CRenderable* lTexture = CTextureManager::GetInstance()->CreateTexture(lItem, lGO, mCApp->GetRenderer());
-                lGO->AddComponent((CComponent*)lTexture);
                 SDL_assert(lTexture);
+                lGO->AddComponent((CComponent*)lTexture);
             }
         }
         for (json11::Json lItem : lJSON.array_items(lOk))
@@ -147,6 +147,7 @@ namespace MyGame {
                         lNewScript = new SMainController(lGO, lItem);
                 }
                 SDL_assert(lNewScript);
+                lGO->AddComponent((CComponent*)lNewScript);
                 CScriptManager::GetInstance()->RegisterScript(lNewScript);
             }
         }
@@ -158,6 +159,7 @@ namespace MyGame {
                 SDL_assert(lGO);
                 CSound* lSound = CSoundManager::GetInstance()->CreateSound(lItem, lGO);
                 SDL_assert(lSound);
+                lGO->AddComponent((CComponent*)lSound);
             }
         }
         return lOk;

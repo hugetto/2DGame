@@ -5,6 +5,7 @@
 #include <CGameObject.h>
 #include <utils/Vec2.h>
 #include <CRenderable.h>
+#include <CSound.h>
 
 #define PIECE_CFG "./datasource/prefabs/pieces.prefab"
 
@@ -32,8 +33,12 @@ namespace MyGame {
                 SDL_assert(lPiece);
                 lPiece->SetName(std::string("piece_") + std::to_string(i) + std::string("_") + std::to_string(j));
                 CComponent* lRenderer = lPiece->FindFirstComponent(CComponent::EComponentType::E_Renderable);
+                SDL_assert(lRenderer);
                 Vec2i lPos (i * static_cast<CRenderable*>(lRenderer)->GetWidth(), j* static_cast<CRenderable*>(lRenderer)->GetHeight());
                 lPiece->SetPosition(lPos);
+                CComponent* lSound = lPiece->FindFirstComponent(CComponent::EComponentType::E_Sound);
+                SDL_assert(lSound);
+                static_cast<CSound*>(lSound)->PlayMusic("test1");
             }
         }
     }
