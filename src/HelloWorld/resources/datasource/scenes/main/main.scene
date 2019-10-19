@@ -24,14 +24,10 @@
     {
         "type" : "Sound",
         "name" : "test",
-        "loop" : true,
+        "loops" : true,
         "sound_list" : 
         [
             {"sound_name" : "testmain", "filename" :  "./datasource/sounds/main/test2.wav", "type": "chunk"}
         ]
-    },
-    {
-        "type" : "Network",
-        "name" : "test"
     }
 ]

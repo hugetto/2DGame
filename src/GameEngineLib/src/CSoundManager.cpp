@@ -8,7 +8,6 @@ namespace hugGameEngine
 
     CSoundManager::CSoundManager()
     {
-
     }
 
     CSoundManager::~CSoundManager()
@@ -31,7 +30,7 @@ namespace hugGameEngine
     bool CSoundManager::DestroySound(const CSound* aSound)
     {
         int lFound = -1;
-        for (int i = 0; i < mChunkList.size(); i++)
+        for (size_t i = 0; i < mChunkList.size(); i++)
         {
             if (mChunkList[i] == aSound)
             {

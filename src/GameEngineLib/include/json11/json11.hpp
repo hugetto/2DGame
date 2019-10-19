@@ -71,7 +71,7 @@ namespace hugGameEngine
 
     namespace json11 {
 
-        enum JsonParse {
+        enum class JsonParse {
             STANDARD, COMMENTS
         };
 
@@ -137,16 +137,22 @@ namespace hugGameEngine
             // distinguish between integer and non-integer numbers - number_value() and int_value()
             // can both be applied to a NUMBER-typed object.
             double number_value(bool& aOk, double aDefault = 0) const;
+            double number_value(double aDefault = 0) const;
             int int_value(bool& aOk, int aDefault = 0) const;
+            int int_value(int aDefault = 0) const;
 
             // Return the enclosed value if this is a boolean, false otherwise.
             bool bool_value(bool& aOk, bool aDefault = true) const;
+            bool bool_value(bool aDefault = true) const;
             // Return the enclosed string if this is a string, "" otherwise.
             const std::string& string_value(bool& aOk, const std::string& aDefault = "") const;
+            const std::string& string_value(const std::string& aDefault = "") const;
             // Return the enclosed std::vector if this is an array, or an empty vector otherwise.
             const array& array_items(bool& aOk) const;
+            const array& array_items() const;
             // Return the enclosed std::map if this is an object, or an empty map otherwise.
             const object& object_items(bool& aOk) const;
+            const object& object_items() const;
 
             // Return a reference to arr[i] if this is an array, Json() otherwise.
             const Json& operator[](size_t i) const;

@@ -19,3 +19,5 @@
 
 #include <iostream>
 #include <crtdbg.h>
+
+#pragma warning( disable : 26812 )

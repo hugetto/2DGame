@@ -60,7 +60,7 @@ namespace hugGameEngine
 
         if(!lFound)
         {
-            CLog("GameObject %s not found", aGameObject->GetName());
+            CLog("GameObject %s not found", aGameObject->GetName().c_str());
         }
 
         return lFound;

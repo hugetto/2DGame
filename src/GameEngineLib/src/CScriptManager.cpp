@@ -27,7 +27,7 @@ namespace hugGameEngine
     bool CScriptManager::DestroyScript(const CScript* aScript)
     {
         int lFound = -1;
-        for (int i = 0; i< mScriptList.size(); i++)
+        for (size_t i = 0; i< mScriptList.size(); i++)
         {
             if (mScriptList[i] == aScript)
             {

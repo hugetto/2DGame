@@ -50,8 +50,8 @@ namespace hugGameEngine
         // Free up resources
         void Cleanup();
 
-        inline int              GetWindowWidth      () const { return mWindowWidth; }
-        inline int              GetWindowHeight     () const { return mWindowHeight; }
+        inline Uint32              GetWindowWidth      () const { return mWindowWidth; }
+        inline Uint32              GetWindowHeight     () const { return mWindowHeight; }
         inline float            GetFPSLimit         () const { return mFPSLimit; }
         inline SDL_Renderer*    GetRenderer         () const { return mRenderer; }
     };

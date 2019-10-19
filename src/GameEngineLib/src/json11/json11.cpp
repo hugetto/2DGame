@@ -294,6 +294,11 @@ namespace hugGameEngine
                 return aDefault;
             }
         }
+        double Json::number_value(double aDefault)                       const
+        {
+            bool lOk = false;
+            return number_value(lOk, aDefault);
+        }
         int Json::int_value(bool& aOk, int aDefault)                             const
         {
             if (m_ptr->type() == Json::Type::NUMBER)
@@ -306,6 +311,11 @@ namespace hugGameEngine
                 aOk = false;
                 return aDefault;
             }
+        }
+        int Json::int_value(int aDefault)                             const
+        {
+            bool lOk = false;
+            return int_value(lOk, aDefault);
         }
         bool Json::bool_value(bool& aOk, bool aDefault)                           const
         {
@@ -320,6 +330,11 @@ namespace hugGameEngine
                 return aDefault;
             }
         }
+        bool Json::bool_value(bool aDefault)                           const
+        {
+            bool lOk = false;
+            return bool_value(lOk, aDefault);
+        }
         const string& Json::string_value(bool& aOk, const std::string& aDefault)               const
         {
             if (m_ptr->type() == Json::Type::STRING)
@@ -333,6 +348,11 @@ namespace hugGameEngine
                 return aDefault;
             }
         }
+        const string& Json::string_value(const std::string& aDefault)               const
+        {
+            bool lOk = false;
+            return string_value(lOk, aDefault);
+        }
         const vector<Json>& Json::array_items(bool& aOk)          const
         {
             if (m_ptr->type() == Json::Type::ARRAY)
@@ -345,6 +365,11 @@ namespace hugGameEngine
                 aOk = false;
                 return m_ptr->array_items();
             }
+        }
+        const vector<Json>& Json::array_items()          const
+        {
+            bool lOk = false;
+            return array_items(lOk);
         }
         const map<string, Json>& Json::object_items(bool& aOk)    const {
             if (m_ptr->type() == Json::Type::OBJECT)

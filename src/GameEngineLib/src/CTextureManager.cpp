@@ -39,7 +39,7 @@ namespace hugGameEngine
     bool CTextureManager::DestroyTexture(const CRenderable* aTexture)
     {
         int lFound = -1;
-        for (int i = 0; i< mRenderableList.size(); i++)
+        for (size_t i = 0; i< mRenderableList.size(); i++)
         {
             if (mRenderableList[i] == aTexture)
             {

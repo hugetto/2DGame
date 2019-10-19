@@ -29,7 +29,7 @@ namespace hugGameEngine
     Mix_Music* CSoundProxy::CreateMusic(const char* aMusicFile)
     {
         int lFound = -1;
-        for (int i = 0; i < mMusicName.size(); i++)
+        for (size_t i = 0; i < mMusicName.size(); i++)
         {
             if (SDL_strcasecmp(mMusicName[i].c_str(), aMusicFile) == 0)
             {
@@ -63,7 +63,7 @@ namespace hugGameEngine
     Mix_Chunk* CSoundProxy::CreateChunk(const char* aChunkFile)
     {
         int lFound = -1;
-        for (int i = 0; i < mChunkName.size(); i++)
+        for (size_t i = 0; i < mChunkName.size(); i++)
         {
             if (SDL_strcasecmp(mChunkName[i].c_str(), aChunkFile) == 0)
             {
@@ -97,7 +97,7 @@ namespace hugGameEngine
     bool CSoundProxy::DestroyMusic(Mix_Music* aMusic)
     {
         int lFound = -1;
-        for (int i = 0; i < mMusicList.size(); i++)
+        for (size_t i = 0; i < mMusicList.size(); i++)
         {
             if (mMusicList[i] == aMusic)
             {
@@ -123,7 +123,7 @@ namespace hugGameEngine
     bool CSoundProxy::DestroyChunk(Mix_Chunk* aChunk)
     {
         int lFound = -1;
-        for (int i = 0; i < mChunkList.size(); i++)
+        for (size_t i = 0; i < mChunkList.size(); i++)
         {
             if (mChunkList[i] == aChunk)
             {

@@ -18,6 +18,7 @@ namespace hugGameEngine
             CSoundProxy::GetInstance()->DestroyChunk(lChunk);
         }
         mChunkList.clear();
+        mPlayingChunksChannel.clear();
     }
 
     bool CSound::Load(const json11::Json& aJSON, const CGameObject* aGameObject)
@@ -68,14 +69,15 @@ namespace hugGameEngine
             {
                 SDL_assert(false);
             }
+            mVolume = lItem["volume"].int_value(mVolume);
         }
         
         return lOk;
     }
 
-    bool CSound::PlaySound(const char* aSoundName)
+    bool CSound::PlayChunk(const char* aSoundName)
     {
-        int i = 0;
+        size_t i = 0;
         bool lFound = false;
         for (i = 0; i < mChunkNameList.size(); ++i)
         {
@@ -90,12 +92,15 @@ namespace hugGameEngine
             if (Mix_Playing(-1) == 0)
             {
                 //Play the music
-                if (Mix_PlayChannel(-1, mChunkList[i], 0) == -1)
+                int lChannel = Mix_PlayChannel(-1, mChunkList[i], mLoop ? -1 : 0);
+                if(lChannel == -1)
                 {
                     CLog("Mix_PlayChannel: %s\n", Mix_GetError());
                     SDL_assert(false);
                     return false;
                 }
+                mPlayingChunksChannel[mChunkList[i]] = lChannel;
+                Mix_VolumeChunk(mChunkList[i], mVolume);
             }
             else
             {
@@ -108,7 +113,7 @@ namespace hugGameEngine
 
     bool CSound::PlayMusic(const char* aMusicName)
     {
-        int i = 0;
+        size_t i = 0;
         bool lFound = false;
         for (i = 0; i < mMusicNameList.size(); ++i)
         {
@@ -129,6 +134,7 @@ namespace hugGameEngine
                     SDL_assert(false);
                     return false;
                 }
+                Mix_VolumeMusic(mVolume);
             }
             else
             {
@@ -139,9 +145,9 @@ namespace hugGameEngine
         return lFound;
     }
 
-    bool CSound::PauseSound(const char* aSoundName)
+    bool CSound::PauseChunk(const char* aSoundName)
     {
-        int i = 0;
+        size_t i = 0;
         bool lFound = false;
         for (i = 0; i < mMusicNameList.size(); ++i)
         {
@@ -153,28 +159,25 @@ namespace hugGameEngine
         }
         if (lFound)
         {
-            if (Mix_PlayingMusic() == 0)
+            if (Mix_Playing(mPlayingChunksChannel[mChunkList[lFound]]) == 0)
             {
-                //Play the music
-                if (Mix_PausedMusic() == -1)
-                {
-                    CLog("Mix_PausedMusic: %s\n", Mix_GetError());
-                    SDL_assert(false);
-                    return false;
-                }
+                Mix_Pause(mPlayingChunksChannel[mChunkList[lFound]]);
             }
             else
             {
-                CLog("Mix_PausedMusic: %s\n", Mix_GetError());
-                SDL_assert(false);
+                CLog("Mix_Playing: %s\n", Mix_GetError());
             }
+        }
+        else
+        {
+            CLog("Sound not found %s", aSoundName);
         }
         return lFound;
     }
 
     bool CSound::PauseMusic(const char* aMusicName)
     {
-        int i = 0;
+        size_t i = 0;
         bool lFound = false;
         for (i = 0; i < mMusicNameList.size(); ++i)
         {
@@ -196,21 +199,56 @@ namespace hugGameEngine
                     return false;
                 }
             }
+            else
+            {
+                CLog("Mix_PlayingMusic: %s\n", Mix_GetError());
+            }
         }
         else
         {
-            CLog("Mix_PlayingMusic: %s\n", Mix_GetError());
+            CLog("Music not found %s", aMusicName);
         }
         return lFound;
     }
 
-    bool CSound::StopSound(const char* aSoundName)
+    bool CSound::ResumeChunk(const char* aSoundName)
     {
         return true;
     }
 
-    bool CSound::StopMusic(const char* aSoundName)
+    bool CSound::ResumeMusic(const char* aMusicName)
     {
-        return true;
+        size_t i = 0;
+        bool lFound = false;
+        for (i = 0; i < mMusicNameList.size(); ++i)
+        {
+            if (SDL_strcasecmp(mMusicNameList[i].c_str(), aMusicName) == 0)
+            {
+                lFound = true;
+                break;
+            }
+        }
+        if (lFound)
+        {
+            if (Mix_PlayingMusic() == 0)
+            {
+                //Play the music
+                Mix_ResumeMusic();
+            }
+            else
+            {
+                CLog("Mix_PlayingMusic: %s\n", Mix_GetError());
+            }
+        }
+        else
+        {
+            CLog("Music not found %s", aMusicName);
+        }
+        return lFound;
+    }
+
+    void CSound::SetVolume(int aVolume)
+    {
+        mVolume = aVolume;
     }
 }

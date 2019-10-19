@@ -10,7 +10,6 @@
 
 using namespace hugGameEngine;
 
-const char* MyGame::SMainController::mScriptName = quote(SMainController);
 namespace MyGame {
 
     SMainController::SMainController(hugGameEngine::CGameObject* aOwner, const hugGameEngine::json11::Json& aJSON) : CScript(aOwner)
@@ -47,7 +46,7 @@ namespace MyGame {
     void SMainController::OnDestroy()
     {
     }
-    void SMainController::Loop(unsigned int aRenderTime)
+    void SMainController::Loop(Uint32 aRenderTime)
     {
         mOwner->SetPosition(mOwner->GetPosition() + Vec2i(1, 1));
     }

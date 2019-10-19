@@ -11,15 +11,12 @@
 #include <SDL.h>
 #include <CComponent.h>
 #include <iostream>
-#define quote(x) #x
 
 namespace hugGameEngine
 {
     class CGameObject;
     class CScript : public CComponent
     {
-    protected:
-        static const char* mScriptName;
     public:
         CScript(CGameObject* aOwner);
         virtual     ~CScript();
@@ -28,7 +25,6 @@ namespace hugGameEngine
         virtual void OnDisable() = 0;
         virtual void OnDestroy() = 0;
         virtual void Loop(unsigned int aRenderTime) = 0;
-        static const char* GetScriptName() { return mScriptName; }
     };
 }
 

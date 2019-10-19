@@ -21,7 +21,7 @@ namespace hugGameEngine
     SDL_Texture* CTextureProxy::CreateTexture(const char* aTexureFile, SDL_Renderer* aRenderer)
     {
         int lFound = -1;
-        for (int i = 0; i < mTextureName.size(); i++)
+        for (size_t i = 0; i < mTextureName.size(); i++)
         {
             if (SDL_strcasecmp(mTextureName[i].c_str(), aTexureFile) == 0)
             {
@@ -60,7 +60,7 @@ namespace hugGameEngine
     void CTextureProxy::DestroyTexture(SDL_Texture* aTexture)
     {
         int lFound = -1;
-        for (int i = 0; i < mTextureList.size(); i++)
+        for (size_t i = 0; i < mTextureList.size(); i++)
         {
             if (mTextureList[i] == aTexture)
             {
@@ -83,7 +83,7 @@ namespace hugGameEngine
     void CTextureProxy::DestroyTexture(const char* aTexureFile)
     {
         int lFound = -1;
-        for (int i = 0; i < mTextureName.size(); i++)
+        for (size_t i = 0; i < mTextureName.size(); i++)
         {
             if (SDL_strcasecmp(mTextureName[i].c_str(), aTexureFile) == 0)
             {

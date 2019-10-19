@@ -38,8 +38,8 @@ namespace MyGame {
         SDL_Event lEvent;
 
         //FPS limiter
-        float   lInitTime = 0.f;
-        float   lEndTime = 0.f;
+        Uint32   lInitTime = 0;
+        Uint32   lEndTime = 0;
         Uint32  lDelay = 0;
         while (mRunning)
         {
@@ -52,11 +52,11 @@ namespace MyGame {
                     mRunning = false;
             }
 
-            Loop(lDelay + mCApp->GetFPSLimit());
+            Loop(lDelay + static_cast<Uint32>(mCApp->GetFPSLimit()));
             Render();
 
             lEndTime = SDL_GetTicks();
-            lDelay = Uint32(std::max(mCApp->GetFPSLimit() - (lEndTime - lInitTime), 0.f));
+            lDelay = static_cast<Uint32>(std::max(mCApp->GetFPSLimit() - (lEndTime - lInitTime), 0.f));
             SDL_Delay(lDelay);
         }
 
@@ -79,7 +79,7 @@ namespace MyGame {
         return lOk;
     }
 
-    void CMyApp::Loop(unsigned int aRenderTime)
+    void CMyApp::Loop(Uint32 aRenderTime)
     {
         mCApp->Loop(aRenderTime);
     }
@@ -143,7 +143,7 @@ namespace MyGame {
                 CScript* lNewScript = nullptr;
                 if (lOk)
                 {
-                    if (SDL_strcasecmp(lFileName, SMainController::GetScriptName()) == 0)
+                    if (SDL_strcasecmp(lFileName, "SMainController") == 0)
                         lNewScript = new SMainController(lGO, lItem);
                 }
                 SDL_assert(lNewScript);

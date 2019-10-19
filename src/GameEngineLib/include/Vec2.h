@@ -76,7 +76,7 @@ namespace hugGameEngine
         inline static float        dot     ( vec2& v1, vec2& v2 )  { return v1.x * v2.x + v1.y * v2.y; }
         inline static float        cross   ( vec2& v1, vec2& v2 )  { return (v1.x * v2.y) - (v1.y * v2.x); }
         inline const float         cross   ( vec2& v2 ) const      { return (x * v2.y) - (y * v2.x); }
-        inline const const float   dot     ( vec2& v2 ) const      { return dot(*this, v2); }
+        inline const float         dot     ( vec2& v2 ) const      { return dot(*this, v2); }
 
         inline const vec2   perpCCW() const { return vec2(-y, x); }
         inline const vec2   perpCW()  const { return vec2(y, -x); }
