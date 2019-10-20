@@ -117,7 +117,7 @@ namespace hugGameEngine
 
     //------------------------------------------------------------------------------
     //Logic loop
-    void CApp::Loop(unsigned int aRenderTime)
+    void CApp::Loop(Uint32 aRenderTime)
     {
         CGameObjectManager::GetInstance()->Loop(aRenderTime);
         CScriptManager::GetInstance()->Loop(aRenderTime);

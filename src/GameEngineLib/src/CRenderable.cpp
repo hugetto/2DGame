@@ -26,29 +26,14 @@ namespace hugGameEngine
 
     void CRenderable::OnRender(SDL_Renderer* aRenderer) const
     {
-        if (mOwner->Enabled())
+        if (mActive && mOwner->Enabled())
         {
-            SDL_Rect lPos;
-            lPos.x = mOwner->GetPosition().x;
-            lPos.y = mOwner->GetPosition().y;
-            lPos.w = int(mWidth * mOwner->GetScale().x);
-            lPos.h = int(mHeight * mOwner->GetScale().y);
-
-            if (mPosition == EPosition::E_ABSOLUTE) //Move with the camera
-            {
-                lPos.x += CCamera::GetInstance()->GetCameraPosition().x;
-                lPos.y += CCamera::GetInstance()->GetCameraPosition().y;
-            }
-
-            SDL_Rect lCameraRect;
-            lCameraRect.x = 0;
-            lCameraRect.y = 0;
-            lCameraRect.w = CApp::GetInstance()->GetWindowWidth();
-            lCameraRect.h = CApp::GetInstance()->GetWindowHeight();
-
+            
+            const SDL_Rect lPos = GetRectPosition();
+            const SDL_Rect lWindow = CApp::GetInstance()->GetWindowRect();
             //Don't render if outside the view
             SDL_Rect lIntersect;
-            if(SDL_IntersectRect(&lPos,&lCameraRect, &lIntersect))
+            if (SDL_IntersectRect(&lPos, &lWindow, &lIntersect))
             {
                 if (SDL_RenderCopyEx(aRenderer, mTexture, &mSourcePos, &lPos, mOwner->GetRotationAngle(), NULL, mFlip) != 0)
                 {
@@ -104,6 +89,23 @@ namespace hugGameEngine
                 SDL_assert(true);
         }
 
+        bool lFlipOk = true;
+        const char* lFlip = aJSON["flip"].string_value(lFlipOk, "SDL_FLIP_NONE").c_str();
+        if (lFlipOk)
+        {
+            if (SDL_strcasecmp(lFlip, "SDL_FLIP_NONE") == 0)
+                mFlip = SDL_FLIP_NONE;
+            else if (SDL_strcasecmp(lFlip, "SDL_FLIP_HORIZONTAL") == 0)
+                mFlip = SDL_FLIP_HORIZONTAL;
+            else if (SDL_strcasecmp(lFlip, "SDL_FLIP_VERTICAL") == 0)
+                mFlip = SDL_FLIP_VERTICAL;
+            else
+                SDL_assert(true);
+        }
+
+        bool lActiveOk = false;
+        mActive = aJSON["active"].bool_value(lActiveOk, mActive);
+
         if(mUnique)
         {
             SDL_Surface* lTempSurface = IMG_Load(lTextureFile);
@@ -158,4 +160,63 @@ namespace hugGameEngine
         return SDL_PointInRect(&aPoint, &lPos);
     }
 
+
+    const SDL_Rect CRenderable::GetRectPosition() const
+    {
+        SDL_Rect lPos;
+        lPos.x = mOwner->GetPosition().x;
+        lPos.y = mOwner->GetPosition().y;
+        lPos.w = int(mWidth * mOwner->GetScale().x);
+        lPos.h = int(mHeight * mOwner->GetScale().y);
+
+        int lWindowWidth = CApp::GetInstance()->GetWindowWidth();
+        int lWindowHeight = CApp::GetInstance()->GetWindowHeight();
+
+        if (mPosition == EPosition::E_ABSOLUTE) //Move with the camera
+        {
+            lPos.x += CCamera::GetInstance()->GetCameraPosition().x;
+            lPos.y += CCamera::GetInstance()->GetCameraPosition().y;
+        }
+        else
+        {
+            if (mReference == EReference::E_TOP_LEFT) {}
+            else if (mReference == EReference::E_TOP_CENTER)
+            {
+                lPos.x += static_cast<int>(lWindowWidth / 2.);
+            }
+            else if (mReference == EReference::E_TOP_RIGHT)
+            {
+                lPos.x += lWindowWidth;
+            }
+            else if (mReference == EReference::E_MIDDLE_LEFT)
+            {
+                lPos.y += static_cast<int>(lWindowHeight / 2.);
+            }
+            else if (mReference == EReference::E_MIDDLE_CENTER)
+            {
+                lPos.x += static_cast<int>(lWindowWidth / 2.);
+                lPos.y += static_cast<int>(lWindowHeight / 2.);
+            }
+            else if (mReference == EReference::E_MIDDLE_RIGHT)
+            {
+                lPos.x += lWindowWidth;
+                lPos.y += static_cast<int>(lWindowHeight / 2.);
+            }
+            else if (mReference == EReference::E_BOTTOM_LEFT)
+            {
+                lPos.y += lWindowHeight;
+            }
+            else if (mReference == EReference::E_BOTTOM_CENTER)
+            {
+                lPos.x += static_cast<int>(lWindowWidth / 2.);
+                lPos.y += lWindowHeight;
+            }
+            else if (mReference == EReference::E_BOTTOM_RIGHT)
+            {
+                lPos.x += lWindowWidth;
+                lPos.y += lWindowHeight;
+            }
+        }
+        return lPos;
+    }
 }

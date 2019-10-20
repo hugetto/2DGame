@@ -15,7 +15,6 @@ namespace hugGameEngine
 
     CTextureManager::CTextureManager()
     {
-
     }
 
     CTextureManager::~CTextureManager()
@@ -49,6 +48,7 @@ namespace hugGameEngine
         }
         if (lFound >= 0)
         {
+            delete (aTexture);
             mRenderableList.erase(mRenderableList.begin() + lFound);
         }
         return lFound >= 0;

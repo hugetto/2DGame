@@ -3,7 +3,7 @@
         "type" : "GameObject",
         "name" : "test",
         "position" : [0,0],
-        "rotation" : 0.0,
+        "rotation" : 45.0,
         "scale" : [1.0, 1.0],
         "enabled" : true
     },
@@ -13,7 +13,7 @@
         "layer" : 0,
         "texture_file" : "./datasource/main_menu/bg.jpg",
         "camera_position" : "fixed",
-        "flip" : "SDL_FLIP_NONE",
+        "flip" : "SDL_FLIP_HORIZONTAL",
         "unique" : false
     },
     {

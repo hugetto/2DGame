@@ -23,9 +23,9 @@ namespace hugGameEngine
         enum class EPosition { E_FIXED, E_ABSOLUTE };
     private:
 
-        std::vector< SDL_Texture* >     mTextureList;
-        std::vector< std::string >      mTextureName;
-        std::vector< unsigned int >     mTextureCount;
+        std::vector< SDL_Texture* > mTextureList;
+        std::vector< std::string >  mTextureName;
+        std::vector< Uint32 >       mTextureCount;
     public:
                             CTextureProxy       () {}
                            ~CTextureProxy       ();

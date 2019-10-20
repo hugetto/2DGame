@@ -18,7 +18,7 @@ namespace hugGameEngine
         return lOk;
     }
 
-    void CGameObject::Loop(unsigned int aRenderTime)
+    void CGameObject::Loop(Uint32 aRenderTime)
     {
     }
 

@@ -57,20 +57,27 @@ namespace MyGame {
     }
     void SMainController::Loop(Uint32 aRenderTime)
     {
-        SDL_Point lPoint;
-        if (SDL_GetMouseState(&lPoint.x, &lPoint.y) & SDL_BUTTON(SDL_BUTTON_LEFT)) {
-            SDL_Log("Mouse Button 1 (left) is pressed.");
-            std::vector< CGameObject* > lGameObjectList = CGameObjectManager::GetInstance()->GetGameObjectInPos(lPoint);
-            for (CGameObject* lGO : lGameObjectList)
-            {
-                SPieceController* lPieceController = lGO->FindFirstScript< SPieceController >("SPieceController");
-                lPieceController->SetSelected(true);
-                SDL_Log("object name: %s", lGO->GetName().c_str());
-            }
-        }
+        //mOwner->SetDirection(mOwner->GetDirection() + 2.f);
         //mOwner->SetPosition(mOwner->GetPosition() + Vec2i(1, 1));
     }
     void SMainController::OnEvent(const SDL_Event* aEvent)
     {
+        if (aEvent->type == SDL_MOUSEBUTTONDOWN)
+        {
+            SDL_Point lPoint;
+            if (SDL_GetMouseState(&lPoint.x, &lPoint.y) & SDL_BUTTON(SDL_BUTTON_LEFT))
+            {
+                std::vector< CGameObject* > lGameObjectList = CGameObjectManager::GetInstance()->GetGameObjectInPos(lPoint);
+                for (CGameObject* lGO : lGameObjectList)
+                {
+                    SPieceController* lPieceController = lGO->FindFirstScript< SPieceController >("SPieceController");
+                    if(lPieceController)
+                    {
+                        lPieceController->SetSelected(true);
+                        //SDL_Log("object name: %s", lGO->GetName().c_str());
+                    }
+                }
+            }
+        }
     }
 }

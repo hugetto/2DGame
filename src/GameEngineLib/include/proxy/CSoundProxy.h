@@ -24,13 +24,13 @@ namespace hugGameEngine
         enum class EPosition { E_FIXED, E_ABSOLUTE };
     private:
 
-        std::vector< Mix_Music* >       mMusicList;
-        std::vector< std::string >      mMusicName;
-        std::vector< unsigned int >     mMusicCount;
+        std::vector< Mix_Music* >   mMusicList;
+        std::vector< std::string >  mMusicName;
+        std::vector< Uint32 >       mMusicCount;
 
-        std::vector< Mix_Chunk* >       mChunkList;
-        std::vector< std::string >      mChunkName;
-        std::vector< unsigned int >     mChunkCount;
+        std::vector< Mix_Chunk* >   mChunkList;
+        std::vector< std::string >  mChunkName;
+        std::vector< Uint32 >       mChunkCount;
     public:
                             CSoundProxy       () {}
                            ~CSoundProxy       ();

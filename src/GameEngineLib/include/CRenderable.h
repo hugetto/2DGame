@@ -35,8 +35,9 @@ namespace hugGameEngine
         EPosition           mPosition   = EPosition::E_ABSOLUTE;
         SDL_RendererFlip    mFlip       = SDL_FLIP_NONE;
         bool                mUnique     = false;
-        unsigned int        mLayer      = 0;
+        Uint32              mLayer      = 0;
         EReference          mReference  = EReference::E_TOP_LEFT;
+        bool                mActive     = true;
     public:
                             CRenderable         (CGameObject* aOwner) : CComponent(aOwner){ mComponentType = CComponent::EComponentType::E_Renderable;  }
                            ~CRenderable         ();
@@ -47,8 +48,11 @@ namespace hugGameEngine
         inline const int&   GetWidth            () const    { return mWidth; }
         inline const int&   GetHeight           () const    { return mHeight; }
         inline const SDL_RendererFlip& GetFlip  () const    { return mFlip; }
-        inline unsigned int GetLayer            () const    { return mLayer; }
+        inline Uint32       GetLayer            () const    { return mLayer; }
                bool         PointInPos          (const SDL_Point& aPoint) const;
+
+    private:
+        const SDL_Rect      GetRectPosition     () const ;
     };
 }
 #endif //__CRENDERABLE_H__

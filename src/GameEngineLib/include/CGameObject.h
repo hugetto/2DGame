@@ -38,12 +38,14 @@ namespace hugGameEngine
         inline const std::string            GetName         () const                        { return mName; }
         inline const Vec2&                  GetScale        () const                        { return mScale; }
         inline bool                         Enabled         () const                        { return mEnabled; }
+        inline double                       GetDirection    () const                        { return mRotationAngle; }
+        inline void                         SetDirection    (double aAngle)                 { mRotationAngle = aAngle; }
         void                                OnCreate        ()                              {}
         void                                OnEnable        ()                              {}
         void                                OnDisable       ()                              {}
         void                                SetName         (const std::string& aName)      { mName = aName; }
         bool                                Load            (const json11::Json& aJSON);
-        void                                Loop            (unsigned int aRenderTime);
+        void                                Loop            (Uint32 aRenderTime);
         inline void                         AddComponent    (CComponent* aComponent)        { mComponentsList.push_back(aComponent); }
         inline std::vector< CComponent* >   GetComponentList()                              { return mComponentsList; }
         CComponent*                         FindFirstComponent(CComponent::EComponentType aType) const;

@@ -31,7 +31,7 @@ namespace hugGameEngine
 
         void            RegisterScript  (CScript* aScript);
         bool            DestroyScript   (const CScript* aScript);
-        void            Loop            (unsigned int aRenterTime);
+        void            Loop            (Uint32 aRenterTime);
         void            OnEvent         (const SDL_Event* aEvent);
     };
 }

@@ -17,6 +17,16 @@
         "unique" : false
     },
     {
+        "type" : "Renderable",
+        "name" : "piece",
+        "layer" : 1,
+        "texture_file" : "./datasource/main_menu/piece1.png",
+        "camera_position" : "fixed",
+        "flip" : "SDL_FLIP_NONE",
+        "unique" : false,
+        "active" : false
+    },
+    {
         "type" : "Script",
         "name" : "piece",
         "script_name" : "SPieceController"

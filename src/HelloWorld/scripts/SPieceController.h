@@ -23,10 +23,11 @@ namespace MyGame {
     private:
         enum class EMoveDirection { E_HORIZONTAL, E_VERTICAL, E_UNKNOWN };
 
-        int             mPiecePosition  = -1;
-        EMoveDirection  mDirection      = EMoveDirection::E_UNKNOWN;
-        bool            mSelected       = false;
-        Vec2i           mInitialPosition = Vec2i();
+        int             mPiecePosition          = -1;
+        EMoveDirection  mDirection              = EMoveDirection::E_UNKNOWN;
+        bool            mSelected               = false;
+        Vec2i           mInitialPosition        = Vec2i();
+        Vec2i           mInitialMousePosition   = Vec2i();
     public:
                         SPieceController    (hugGameEngine::CGameObject* aOwner, const hugGameEngine::json11::Json& aJSON);
                        ~SPieceController    ();
@@ -37,7 +38,7 @@ namespace MyGame {
                 void    Loop                (Uint32 aRenderTime);
                 void    OnEvent             (const SDL_Event* aEvent);
         inline  void    SetInitialPosition  (const Vec2i& aPos)                 { mInitialPosition = aPos; }
-        inline  void    SetSelected         (bool aSelected)                    { mSelected = aSelected; }
+                void    SetSelected         (bool aSelected);
         inline  void    SetMovementDirection(const EMoveDirection& aDirection)  { mDirection = aDirection; }
     };
 }

@@ -15,7 +15,11 @@ namespace hugGameEngine
 
     CGameObjectManager::~CGameObjectManager()
     {
-
+        for (CGameObject* lPointer : mGameObjectList)
+        {
+            delete(lPointer);
+        }
+        mGameObjectList.clear();
     }
 
     CGameObject* CGameObjectManager::CreateGameObject(const json11::Json& aJSON)
@@ -57,17 +61,14 @@ namespace hugGameEngine
     {
         std::vector< CGameObject* >::const_iterator lIt = std::begin(mGameObjectList);
         bool lFound = false;
-        while (lIt != std::end(mGameObjectList))
+        for (std::vector< CGameObject* >::const_iterator lIt = mGameObjectList.begin(); lIt != mGameObjectList.end(); lIt++)
         {
             if (aGameObject == (*lIt))
             {
                 lFound = true;
+                delete (aGameObject);
                 mGameObjectList.erase(lIt);
                 break;
-            }
-            else
-            {
-                ++lIt;
             }
         }
 
@@ -79,7 +80,7 @@ namespace hugGameEngine
         return lFound;
     }
 
-    void CGameObjectManager::Loop(unsigned int aRenderTime) const
+    void CGameObjectManager::Loop(Uint32 aRenderTime) const
     {
         for (std::vector< CGameObject* >::const_iterator lIt = mGameObjectList.begin();
             lIt != mGameObjectList.end();

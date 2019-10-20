@@ -40,6 +40,7 @@ namespace hugGameEngine
         }
         if (lFound >= 0)
         {
+            delete (aSound);
             mChunkList.erase(mChunkList.begin() + lFound);
         }
         return lFound >= 0;

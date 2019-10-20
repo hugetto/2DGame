@@ -29,7 +29,7 @@ namespace hugGameEngine
 
         CGameObject*                    CreateGameObject    (const json11::Json& aJSON);
         bool                            DestroyGameObject   (const CGameObject* aGameObject);
-        void                            Loop                (unsigned int aRenderTime)      const;
+        void                            Loop                (Uint32 aRenderTime)      const;
         CGameObject*                    FindGameObject      (const char* aGameObjectName)   const;
         std::vector< CGameObject* >     FindAllGameObjects  (const char* aGameObjectName)   const;
         std::vector< CGameObject* >     GetGameObjectInPos  (const SDL_Point& aPosition)    const;

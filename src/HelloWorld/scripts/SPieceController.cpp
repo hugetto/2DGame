@@ -35,8 +35,30 @@ namespace MyGame {
     }
     void SPieceController::Loop(Uint32 aRenderTime)
     {
+        if (mSelected)
+        {
+            Vec2i lTmp;
+            if (SDL_GetMouseState(&lTmp.x, &lTmp.y) & SDL_BUTTON(SDL_BUTTON_LEFT))
+                mOwner->SetPosition(mInitialMousePosition + lTmp);
+        }
     }
     void SPieceController::OnEvent(const SDL_Event* aEvent)
     {
+        if (aEvent->type == SDL_MOUSEBUTTONUP)
+        {
+            mSelected = false;
+        }
+    }
+    void SPieceController::SetSelected(bool aSelected)
+    {
+        mSelected = aSelected;
+        if (mSelected)
+        {
+            Vec2i lTmp;
+            if (SDL_GetMouseState(&lTmp.x, &lTmp.y))
+            {
+                mInitialMousePosition = lTmp;
+            }
+        }
     }
 }

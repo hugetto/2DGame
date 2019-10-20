@@ -20,8 +20,8 @@ namespace MyGame {
         public hugGameEngine::CScript
     {
     private:
-        int mPiecesWidth    = 6;
-        int mPiecesHeight   = 6;
+        int mPiecesWidth    = 0;
+        int mPiecesHeight   = 0;
     public:
         SMainController (hugGameEngine::CGameObject* aOwner, const hugGameEngine::json11::Json& aJSON);
         ~SMainController();

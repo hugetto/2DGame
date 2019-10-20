@@ -15,7 +15,11 @@ namespace hugGameEngine
 
     CScriptManager::~CScriptManager()
     {
-
+        for (CScript* lPointer : mScriptList)
+        {
+            delete(lPointer);
+        }
+        mScriptList.clear();
     }
 
     void CScriptManager::RegisterScript(CScript* aScript)
@@ -37,12 +41,13 @@ namespace hugGameEngine
         }
         if (lFound >= 0)
         {
+            delete(aScript);
             mScriptList.erase(mScriptList.begin() + lFound);
         }
         return lFound >= 0;
     }
 
-    void CScriptManager::Loop(unsigned int aRenterTime)
+    void CScriptManager::Loop(Uint32 aRenterTime)
     {
         for (std::vector< CScript* >::const_iterator lIt = mScriptList.begin();
             lIt != mScriptList.end();

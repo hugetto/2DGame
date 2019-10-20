@@ -35,3 +35,5 @@
 /src/HelloWorld/Debug
 /src/.vs/HugEngine/v16
 /src/Debug
+/src/GameEngineLib/Release
+/src/HelloWorld/Release
