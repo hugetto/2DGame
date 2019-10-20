@@ -47,7 +47,7 @@ namespace hugGameEngine
         return lRet;
     }
 
-    bool CGameObject::PointInGameObject(const SDL_Point* aPoint) const
+    bool CGameObject::PointInGameObject(const SDL_Point& aPoint) const
     {
         std::vector< CComponent* > lRenderer = FindAllComponents(CComponent::EComponentType::E_Renderable);
 

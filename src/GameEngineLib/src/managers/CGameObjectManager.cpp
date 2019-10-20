@@ -40,6 +40,19 @@ namespace hugGameEngine
         return lRetObject;
     }
 
+    std::vector< CGameObject* > CGameObjectManager::FindAllGameObjects(const char* aGameObjectName) const
+    {
+        std::vector< CGameObject* > lRetObject;
+        for (CGameObject* lGameObject : mGameObjectList)
+        {
+            if (strcmp(lGameObject->GetName().c_str(), aGameObjectName) == 0)
+            {
+                lRetObject.push_back(lGameObject);
+            }
+        }
+        return lRetObject;
+    }
+
     bool CGameObjectManager::DestroyGameObject(const CGameObject* aGameObject)
     {
         std::vector< CGameObject* >::const_iterator lIt = std::begin(mGameObjectList);
@@ -77,7 +90,7 @@ namespace hugGameEngine
     }
 
 
-    std::vector< CGameObject* > CGameObjectManager::GetGameObjectInPos(const SDL_Point* aPosition) const
+    std::vector< CGameObject* > CGameObjectManager::GetGameObjectInPos(const SDL_Point& aPosition) const
     {
         std::vector< CGameObject* > lRet;
         for (CGameObject* lGO : mGameObjectList)

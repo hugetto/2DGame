@@ -1,5 +1,4 @@
 
-#include "pch.h"
 #include "CMyApp.h"
 #include <CApp.h>
 #include <json11/json11.hpp>
@@ -14,7 +13,6 @@
 #include <managers/CScriptManager.h>
 #include <algorithm>
 #include "AllScripts.inc"
-#include "SMainController.h"
 
 #define MAIN_SCENE "./datasource/scenes/main/main.scene"
 
@@ -30,7 +28,7 @@ namespace MyGame {
 
     int CMyApp::Execute(int argc, char* argv[])
     {
-        mCApp = new CApp();
+        mCApp = CApp::GetInstance();
         if (!Init())
             return 0;
 
@@ -144,6 +142,8 @@ namespace MyGame {
                 {
                     if (SDL_strcasecmp(lFileName, "SMainController") == 0)
                         lNewScript = new SMainController(lGO, lItem);
+                    if (SDL_strcasecmp(lFileName, "SPieceController") == 0)
+                        lNewScript = new SPieceController(lGO, lItem);
                 }
                 SDL_assert(lNewScript);
                 lGO->AddComponent((CComponent*)lNewScript);

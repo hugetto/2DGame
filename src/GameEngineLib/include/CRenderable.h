@@ -48,7 +48,7 @@ namespace hugGameEngine
         inline const int&   GetHeight           () const    { return mHeight; }
         inline const SDL_RendererFlip& GetFlip  () const    { return mFlip; }
         inline unsigned int GetLayer            () const    { return mLayer; }
-               bool         PointInPos          (const SDL_Point* aPoint) const;
+               bool         PointInPos          (const SDL_Point& aPoint) const;
     };
 }
 #endif //__CRENDERABLE_H__

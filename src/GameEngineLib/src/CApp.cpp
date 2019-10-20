@@ -12,6 +12,11 @@
 
 namespace hugGameEngine
 {
+    CApp CApp::sInstance;
+    CApp* CApp::GetInstance()
+    {
+        return &sInstance;
+    }
     //==============================================================================
     CApp::CApp()
     {
@@ -23,8 +28,9 @@ namespace hugGameEngine
     }
 
     //------------------------------------------------------------------------------
-    void CApp::OnEvent(SDL_Event* aEvent)
+    void CApp::OnEvent(const SDL_Event* aEvent)
     {
+        CScriptManager::GetInstance()->OnEvent(aEvent);
     }
 
     //------------------------------------------------------------------------------

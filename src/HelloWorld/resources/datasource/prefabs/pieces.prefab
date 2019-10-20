@@ -17,6 +17,11 @@
         "unique" : false
     },
     {
+        "type" : "Script",
+        "name" : "piece",
+        "script_name" : "SPieceController"
+    },
+    {
         "type" : "Sound",
         "name" : "piece",
         "loop" : true,

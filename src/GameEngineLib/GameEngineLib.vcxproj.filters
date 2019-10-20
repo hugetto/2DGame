@@ -123,8 +123,5 @@
     <ClInclude Include="include\utils\Vec2.h">
       <Filter>include\utils</Filter>
     </ClInclude>
-    <ClInclude Include="include\utils\CLog.h">
-      <Filter>include\utils</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

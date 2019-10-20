@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\scripts">
+      <UniqueIdentifier>{0e297949-ca63-4996-889d-908c009f9a81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scripts">
+      <UniqueIdentifier>{7c9a583a-db75-4374-bd31-e3613203daed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -21,22 +27,22 @@
     <ClCompile Include="CMyApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="scripts\SMainController.cpp">
+      <Filter>Source Files\scripts</Filter>
     </ClCompile>
-    <ClCompile Include="SMainController.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="scripts\SPieceController.cpp">
+      <Filter>Source Files\scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CMyApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="scripts\SMainController.h">
+      <Filter>Header Files\scripts</Filter>
     </ClInclude>
-    <ClInclude Include="SMainController.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="scripts\SPieceController.h">
+      <Filter>Header Files\scripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

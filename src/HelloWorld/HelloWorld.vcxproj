@@ -21,13 +21,13 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CMyApp.cpp" />
-    <ClCompile Include="SMainController.cpp" />
-    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="scripts\SMainController.cpp" />
+    <ClCompile Include="scripts\SPieceController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CMyApp.h" />
-    <ClInclude Include="SMainController.h" />
-    <ClInclude Include="pch.h" />
+    <ClInclude Include="scripts\SMainController.h" />
+    <ClInclude Include="scripts\SPieceController.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AllScripts.inc" />
@@ -101,7 +101,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
       <TreatWarningAsError>true</TreatWarningAsError>

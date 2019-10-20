@@ -205,7 +205,6 @@
     <ClInclude Include="include\managers\CTextureManager.h" />
     <ClInclude Include="include\proxy\CSoundProxy.h" />
     <ClInclude Include="include\proxy\CTextureProxy.h" />
-    <ClInclude Include="include\utils\CLog.h" />
     <ClInclude Include="include\utils\Vec2.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="targetver.h" />

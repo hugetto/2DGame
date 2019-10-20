@@ -40,9 +40,15 @@ namespace hugGameEngine
                 lPos.y += CCamera::GetInstance()->GetCameraPosition().y;
             }
 
+            SDL_Rect lCameraRect;
+            lCameraRect.x = 0;
+            lCameraRect.y = 0;
+            lCameraRect.w = CApp::GetInstance()->GetWindowWidth();
+            lCameraRect.h = CApp::GetInstance()->GetWindowHeight();
+
             //Don't render if outside the view
-            //if (((lPos.x + lPos.w >= 0) && (lPos.x < CApp::GetInstance()->GetWindowWidth())) &&
-            //    ((lPos.y + lPos.h >= 0) && (lPos.y < CApp::GetInstance()->GetWindowHeight())))
+            SDL_Rect lIntersect;
+            if(SDL_IntersectRect(&lPos,&lCameraRect, &lIntersect))
             {
                 if (SDL_RenderCopyEx(aRenderer, mTexture, &mSourcePos, &lPos, mOwner->GetRotationAngle(), NULL, mFlip) != 0)
                 {
@@ -136,7 +142,7 @@ namespace hugGameEngine
         }
 
     }
-    bool CRenderable::PointInPos(const SDL_Point* aPoint) const
+    bool CRenderable::PointInPos(const SDL_Point& aPoint) const
     {
         SDL_Rect lPos;
         lPos.x = mOwner->GetPosition().x;
@@ -149,7 +155,7 @@ namespace hugGameEngine
             lPos.x += CCamera::GetInstance()->GetCameraPosition().x;
             lPos.y += CCamera::GetInstance()->GetCameraPosition().y;
         }
-        return SDL_PointInRect(aPoint, &lPos);
+        return SDL_PointInRect(&aPoint, &lPos);
     }
 
 }

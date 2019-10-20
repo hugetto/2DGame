@@ -29,7 +29,8 @@ namespace MyGame {
         void OnEnable   ();
         void OnDisable  ();
         void OnDestroy  ();
-        void Loop       (unsigned int aRenderTime);
+        void Loop       (Uint32 aRenderTime);
+        void OnEvent    (const SDL_Event* aEvent);
     };
 }
 #endif

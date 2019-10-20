@@ -19,6 +19,8 @@ namespace hugGameEngine
 {
     class CApp
     {
+    private:
+        static CApp     sInstance;
     protected:
         SDL_Window*     mWindow         = nullptr;
         SDL_Renderer*   mRenderer       = nullptr;
@@ -36,13 +38,13 @@ namespace hugGameEngine
         int Execute(int argc, char* argv[]);
 
         // Capture SDL Events
-        void OnEvent(SDL_Event* aEvent);
+        void OnEvent(const SDL_Event* aEvent);
 
         // Initialize our SDL game / app
         bool Init();
 
         // Logic loop
-        void Loop(unsigned int aRenderTime);
+        void Loop(Uint32 aRenderTime);
 
         // Render loop (draw)
         void Render();
@@ -54,6 +56,7 @@ namespace hugGameEngine
         inline Uint32           GetWindowHeight     () const { return mWindowHeight; }
         inline float            GetFPSLimit         () const { return mFPSLimit; }
         inline SDL_Renderer*    GetRenderer         () const { return mRenderer; }
+        static CApp*            GetInstance         ();
     };
 }
 #endif //__CAPP_H__

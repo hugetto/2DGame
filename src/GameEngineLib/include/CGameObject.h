@@ -48,7 +48,36 @@ namespace hugGameEngine
         inline std::vector< CComponent* >   GetComponentList()                              { return mComponentsList; }
         CComponent*                         FindFirstComponent(CComponent::EComponentType aType) const;
         std::vector< CComponent* >          FindAllComponents(CComponent::EComponentType aType) const;
-        bool                                PointInGameObject(const SDL_Point* aPoint) const;
+        bool                                PointInGameObject(const SDL_Point& aPoint) const;
+
+        template <class T>
+        std::vector < T* > FindAllScript(const char* aScriptName) const
+        {
+            std::vector < T* > lRetVec;
+            std::vector < CComponent* > lAllScripts = FindAllComponents(CComponent::EComponentType::E_Script);
+            for (CComponent* lComponent : lAllScripts)
+            {
+                if (SDL_strcasecmp(dynamic_cast<CScript*>(lComponent)->GetScriptName(), aScriptName) == 0)
+                {
+                    lRetVec.push_back(dynamic_cast<T*>(lComponent));
+                }
+            }
+            return lRetVec;
+        }
+
+        template <typename T>
+        T* FindFirstScript(const char* aScriptName) const
+        {
+            std::vector < CComponent* > lAllScripts = FindAllComponents(CComponent::EComponentType::E_Script);
+            for (CComponent* lComponent : lAllScripts)
+            {
+                if (SDL_strcasecmp(static_cast<CScript*>(lComponent)->GetScriptName(), aScriptName) == 0)
+                {
+                    return static_cast<T*>(lComponent);
+                }
+            }
+            return nullptr;
+        }
     };
 }
 

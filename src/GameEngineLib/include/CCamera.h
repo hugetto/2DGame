@@ -8,6 +8,7 @@
 #define __CCAMERA_H__
 
 #include <utils/Vec2.h>
+#include <SDL.h>
 
 namespace hugGameEngine
 {
@@ -23,7 +24,7 @@ namespace hugGameEngine
         ~CCamera() {}
         inline const Vec2i& GetCameraPosition() const               { return mCameraPosition; }
         inline void         SetCameraPosition(const Vec2i& aNewPos) { mDesiredPosition = aNewPos; }
-        inline void         Loop(const unsigned int aTime)          { mCameraPosition += ((mDesiredPosition * mSpeed) * aTime); }
+        inline void         Loop(Uint32 aTime)                      { mCameraPosition += ((mDesiredPosition * mSpeed) * aTime); }
         static CCamera*     GetInstance()                           { return &CCamera::sCameraInstance; }
     };
 }

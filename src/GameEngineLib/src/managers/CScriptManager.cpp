@@ -52,4 +52,13 @@ namespace hugGameEngine
         }
     }
 
+    void CScriptManager::OnEvent(const SDL_Event* aEvent)
+    {
+        for (std::vector< CScript* >::const_iterator lIt = mScriptList.begin();
+            lIt != mScriptList.end();
+            lIt++)
+        {
+            (*lIt)->OnEvent(aEvent);
+        }
+    }
 }
