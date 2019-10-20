@@ -1,7 +1,6 @@
 #include "pch.h"
 #include <proxy/CSoundProxy.h>
 #include <SDL_image.h>
-#include <utils/CLog.h>
 
 namespace hugGameEngine
 {
@@ -49,7 +48,7 @@ namespace hugGameEngine
             SDL_assert(lMusic);
             if (lMusic == NULL)
             {
-                CLog("Error loading music file %s, SDL error %s", aMusicFile, Mix_GetError());
+                SDL_LogDebug(SDL_LOG_CATEGORY_AUDIO, "Error loading music file %s, SDL error %s", aMusicFile, Mix_GetError());
                 return nullptr;
             }
             mMusicList.push_back(lMusic);
@@ -83,7 +82,7 @@ namespace hugGameEngine
             SDL_assert(lChunk);
             if (lChunk == NULL)
             {
-                CLog("Error loading Chunk file %s, SDL error %s", aChunkFile, Mix_GetError());
+                SDL_LogDebug(SDL_LOG_CATEGORY_AUDIO, "Error loading Chunk file %s, SDL error %s", aChunkFile, Mix_GetError());
                 return nullptr;
             }
             mChunkList.push_back(lChunk);

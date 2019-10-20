@@ -1,7 +1,6 @@
 #include "pch.h"
 #include <CSound.h>
 #include <CGameObject.h>
-#include <utils/CLog.h>
 #include <proxy/CSoundProxy.h>
 
 namespace hugGameEngine
@@ -96,7 +95,7 @@ namespace hugGameEngine
                 int lChannel = Mix_PlayChannel(-1, mChunkList[i], mLoop ? -1 : 0);
                 if(lChannel == -1)
                 {
-                    CLog("Mix_PlayChannel: %s\n", Mix_GetError());
+                    SDL_LogDebug(SDL_LOG_CATEGORY_AUDIO, "Mix_PlayChannel: %s\n", Mix_GetError());
                     SDL_assert(false);
                     return false;
                 }
@@ -105,7 +104,7 @@ namespace hugGameEngine
             }
             else
             {
-                CLog("Mix_Playing: %s\n", Mix_GetError());
+                SDL_LogDebug(SDL_LOG_CATEGORY_AUDIO, "Mix_Playing: %s\n", Mix_GetError());
                 SDL_assert(false);
             }
         }
@@ -131,7 +130,7 @@ namespace hugGameEngine
                 //Play the music
                 if (Mix_PlayMusic(mMusicList[i], mLoop ? -1 : 1) == -1)
                 {
-                    CLog("Mix_PlayMusic: %s\n", Mix_GetError());
+                    SDL_LogDebug(SDL_LOG_CATEGORY_AUDIO, "Mix_PlayMusic: %s\n", Mix_GetError());
                     SDL_assert(false);
                     return false;
                 }
@@ -139,7 +138,7 @@ namespace hugGameEngine
             }
             else
             {
-                CLog("Mix_PlayingMusic: %s\n", Mix_GetError());
+                SDL_LogDebug(SDL_LOG_CATEGORY_AUDIO, "Mix_PlayingMusic: %s\n", Mix_GetError());
             }
         }
         return lFound;
@@ -165,12 +164,12 @@ namespace hugGameEngine
             }
             else
             {
-                CLog("Mix_Playing: %s\n", Mix_GetError());
+                SDL_LogDebug(SDL_LOG_CATEGORY_AUDIO, "Mix_Playing: %s\n", Mix_GetError());
             }
         }
         else
         {
-            CLog("Sound not found %s", aSoundName);
+            SDL_LogDebug(SDL_LOG_CATEGORY_AUDIO, "Sound not found %s", aSoundName);
         }
         return lFound;
     }
@@ -194,19 +193,19 @@ namespace hugGameEngine
                 //Play the music
                 if (Mix_PausedMusic() == -1)
                 {
-                    CLog("Mix_PausedMusic: %s\n", Mix_GetError());
+                    SDL_LogDebug(SDL_LOG_CATEGORY_AUDIO, "Mix_PausedMusic: %s\n", Mix_GetError());
                     SDL_assert(false);
                     return false;
                 }
             }
             else
             {
-                CLog("Mix_PlayingMusic: %s\n", Mix_GetError());
+                SDL_LogDebug(SDL_LOG_CATEGORY_AUDIO, "Mix_PlayingMusic: %s\n", Mix_GetError());
             }
         }
         else
         {
-            CLog("Music not found %s", aMusicName);
+            SDL_LogDebug(SDL_LOG_CATEGORY_AUDIO, "Music not found %s", aMusicName);
         }
         return lFound;
     }
@@ -237,12 +236,12 @@ namespace hugGameEngine
             }
             else
             {
-                CLog("Mix_PlayingMusic: %s\n", Mix_GetError());
+                SDL_LogDebug(SDL_LOG_CATEGORY_AUDIO, "Mix_PlayingMusic: %s\n", Mix_GetError());
             }
         }
         else
         {
-            CLog("Music not found %s", aMusicName);
+            SDL_LogDebug(SDL_LOG_CATEGORY_AUDIO, "Music not found %s", aMusicName);
         }
         return lFound;
     }

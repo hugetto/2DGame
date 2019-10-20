@@ -23,7 +23,7 @@ namespace MyGame {
     }
     void SMainController::OnCreate()
     {
-        //Create all the pieces
+        //Create all the pieces from the board
         for (int i = 0; i < mPiecesWidth; i++)
         {
             for (int j = 0; j < mPiecesHeight; j++)
@@ -53,6 +53,10 @@ namespace MyGame {
     }
     void SMainController::Loop(Uint32 aRenderTime)
     {
+        int x, y = 0;
+        if (SDL_GetMouseState(&x, &y) & SDL_BUTTON(SDL_BUTTON_LEFT)) {
+            SDL_Log("Mouse Button 1 (left) is pressed.");
+        }
         mOwner->SetPosition(mOwner->GetPosition() + Vec2i(1, 1));
     }
 }

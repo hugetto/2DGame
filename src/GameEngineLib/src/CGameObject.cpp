@@ -1,6 +1,7 @@
 #include "pch.h"
 #include <CGameObject.h>
-#pragma warning( disable : 26812 )
+#include <CRenderable.h>
+
 namespace hugGameEngine
 {
     bool CGameObject::Load(const json11::Json& aJSON)
@@ -21,7 +22,7 @@ namespace hugGameEngine
     {
     }
 
-    CComponent* CGameObject::FindFirstComponent(CComponent::EComponentType aType)
+    CComponent* CGameObject::FindFirstComponent(CComponent::EComponentType aType) const
     {
         for (std::vector< CComponent* >::const_iterator lIt = mComponentsList.begin(); lIt != mComponentsList.end(); lIt++)
         {
@@ -31,5 +32,30 @@ namespace hugGameEngine
             }
         }
         return nullptr;
+    }
+
+    std::vector< CComponent* > CGameObject::FindAllComponents(CComponent::EComponentType aType) const
+    {
+        std::vector< CComponent* > lRet;
+        for (std::vector< CComponent* >::const_iterator lIt = mComponentsList.begin(); lIt != mComponentsList.end(); lIt++)
+        {
+            if ((*lIt)->GetType() == aType)
+            {
+                lRet.push_back((*lIt));
+            }
+        }
+        return lRet;
+    }
+
+    bool CGameObject::PointInGameObject(const SDL_Point* aPoint) const
+    {
+        std::vector< CComponent* > lRenderer = FindAllComponents(CComponent::EComponentType::E_Renderable);
+
+        for (size_t i = 0; i < lRenderer.size(); i++)
+        {
+            if (static_cast<CRenderable*>(lRenderer[i])->PointInPos(aPoint))
+                return true;
+        }
+        return false;
     }
 }

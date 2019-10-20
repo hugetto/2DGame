@@ -20,7 +20,12 @@ namespace hugGameEngine
     class CRenderable : public CComponent
     {
     public:
-        enum class EPosition { E_FIXED, E_ABSOLUTE };
+        enum class EPosition    { E_FIXED, E_ABSOLUTE };
+        enum class EReference   { 
+                                    E_TOP_LEFT   , E_TOP_CENTER   , E_TOP_RIGHT,
+                                    E_MIDDLE_LEFT, E_MIDDLE_CENTER, E_MIDDLE_RIGHT,
+                                    E_BOTTOM_LEFT, E_BOTTOM_CENTER, E_BOTTOM_RIGHT
+                                };
     private:
         //C++ 11 allows this initializaiton
         SDL_Texture*        mTexture    = nullptr;
@@ -31,6 +36,7 @@ namespace hugGameEngine
         SDL_RendererFlip    mFlip       = SDL_FLIP_NONE;
         bool                mUnique     = false;
         unsigned int        mLayer      = 0;
+        EReference          mReference  = EReference::E_TOP_LEFT;
     public:
                             CRenderable         (CGameObject* aOwner) : CComponent(aOwner){ mComponentType = CComponent::EComponentType::E_Renderable;  }
                            ~CRenderable         ();
@@ -40,8 +46,9 @@ namespace hugGameEngine
         void                OnRender            (SDL_Renderer* mRenderer) const;
         inline const int&   GetWidth            () const    { return mWidth; }
         inline const int&   GetHeight           () const    { return mHeight; }
-        inline const SDL_RendererFlip& GetFlip() const      { return mFlip; }
-        inline unsigned int GetLayer() const                { return mLayer; }
+        inline const SDL_RendererFlip& GetFlip  () const    { return mFlip; }
+        inline unsigned int GetLayer            () const    { return mLayer; }
+               bool         PointInPos          (const SDL_Point* aPoint) const;
     };
 }
 #endif //__CRENDERABLE_H__

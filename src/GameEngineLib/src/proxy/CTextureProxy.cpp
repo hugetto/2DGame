@@ -1,7 +1,6 @@
 #include "pch.h"
 #include <proxy/CTextureProxy.h>
 #include <SDL_image.h>
-#include <utils/CLog.h>
 
 namespace hugGameEngine
 {
@@ -41,7 +40,7 @@ namespace hugGameEngine
             SDL_assert(lTempSurface);
             if (lTempSurface == 0)
             {
-                CLog("Cannot load the image file %s, sdl_error: %s", aTexureFile, SDL_GetError());
+                SDL_LogDebug(SDL_LOG_CATEGORY_RENDER, "Cannot load the image file %s, sdl_error: %s", aTexureFile, SDL_GetError());
                 return nullptr;
             }
 

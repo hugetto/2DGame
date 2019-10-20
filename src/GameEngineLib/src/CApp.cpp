@@ -1,6 +1,5 @@
 #include "pch.h"
 #include <CApp.h>
-#include <utils/CLog.h>
 #include <managers/CTextureManager.h>
 #include <managers/CGameObjectManager.h>
 #include <managers/CScriptManager.h>
@@ -40,14 +39,14 @@ namespace hugGameEngine
 
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         {
-            CLog("Unable to Init SDL: %s", SDL_GetError());
+            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Unable to Init SDL: %s", SDL_GetError());
             return false;
         }
 
         bool lOk = false;
         if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, lJSON["render_quality"].string_value(lOk, "1").c_str()))
         {
-            CLog("Unable to Init hinting: %s", SDL_GetError());
+            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Unable to Init hinting: %s", SDL_GetError());
         }
 
         mWindowWidth = lJSON["window_width"].int_value(lOk, 1024);
@@ -58,7 +57,7 @@ namespace hugGameEngine
             mWindowWidth, mWindowHeight, SDL_WINDOW_SHOWN)
             ) == NULL) 
         {
-            CLog("Unable to create SDL Window: %s", SDL_GetError());
+            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Unable to create SDL Window: %s", SDL_GetError());
             return false;
         }
 
@@ -66,7 +65,7 @@ namespace hugGameEngine
 
         if ((mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)) == NULL)
         {
-            CLog("Unable to create renderer");
+            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Unable to create renderer");
             return false;
         }
 
@@ -77,26 +76,26 @@ namespace hugGameEngine
         int lInitted = IMG_Init(lFlags);
         if ((lInitted & lFlags) != lFlags)
         {
-            CLog("IMG_Init: Failed to init required jpg and png support!\n");
-            CLog("IMG_Init: %s\n", IMG_GetError());
+            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "IMG_Init: Failed to init required jpg and png support!\n");
+            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "IMG_Init: %s\n", IMG_GetError());
             return false;
         }
 
         if (TTF_Init() == -1)
         {
-            CLog("TTF_Init: %s\n", TTF_GetError());
+            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "TTF_Init: %s\n", TTF_GetError());
             return false;
         }
 
         if (Mix_OpenAudio(lJSON["frequency"].int_value(lOk, 22050), MIX_DEFAULT_FORMAT, 2, 4096) == -1)
         {
-            CLog("Mix_OpenAudio: %s\n", Mix_GetError());
+            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Mix_OpenAudio: %s\n", Mix_GetError());
             return false;
         }
 
         if (SDLNet_Init() == -1)
         {
-            CLog("SDLNet_Init: %s\n", SDLNet_GetError());
+            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "SDLNet_Init: %s\n", SDLNet_GetError());
             return false;
         }
 
@@ -124,7 +123,7 @@ namespace hugGameEngine
     {
         if (SDL_RenderClear(mRenderer) != 0)
         {
-            CLog("Unable to Render SDL: %s", SDL_GetError());
+            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Unable to Render SDL: %s", SDL_GetError());
         }
         CTextureManager::GetInstance()->OnRender(mRenderer);
         SDL_RenderPresent(mRenderer);

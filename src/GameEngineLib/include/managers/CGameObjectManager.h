@@ -27,10 +27,11 @@ namespace hugGameEngine
 
         inline static CGameObjectManager* GetInstance() { return &CGameObjectManager::sInstance; }
 
-        CGameObject*    CreateGameObject    (const json11::Json& aJSON);
-        bool            DestroyGameObject   (const CGameObject* aGameObject);
-        void            Loop                (unsigned int aRenderTime);
-        CGameObject*    FindGameObject      (const char* aGameObjectName);
+        CGameObject*                    CreateGameObject    (const json11::Json& aJSON);
+        bool                            DestroyGameObject   (const CGameObject* aGameObject);
+        void                            Loop                (unsigned int aRenderTime) const;
+        CGameObject*                    FindGameObject      (const char* aGameObjectName) const;
+        std::vector< CGameObject* >     GetGameObjectInPos  (const SDL_Point* aPosition) const;
     };
 }
 

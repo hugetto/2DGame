@@ -12,7 +12,6 @@
 #include <managers/CSoundManager.h>
 #include <CScript.h>
 #include <managers/CScriptManager.h>
-#include <utils/CLog.h>
 #include <algorithm>
 #include "AllScripts.inc"
 #include "SMainController.h"
@@ -100,7 +99,7 @@ namespace MyGame {
         std::ifstream lMainScene(aFileName);
         if (lMainScene.fail())
         {
-            CLog("Failed loading scene %s", aFileName);
+            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Failed loading scene %s", aFileName);
             return false;
         }
         std::string lMainCfgStr((std::istreambuf_iterator<char>(lMainScene)), std::istreambuf_iterator<char>());
@@ -108,7 +107,7 @@ namespace MyGame {
         const json11::Json lJSON = json11::Json::parse(lMainCfgStr, lError);
         if (!lError.empty())
         {
-            CLog("JSON parse error %s", lError.c_str());
+            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "JSON parse error %s", lError.c_str());
             SDL_assert(false);
             return false;
         }

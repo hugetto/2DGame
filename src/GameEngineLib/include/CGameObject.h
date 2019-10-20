@@ -46,7 +46,9 @@ namespace hugGameEngine
         void                                Loop            (unsigned int aRenderTime);
         inline void                         AddComponent    (CComponent* aComponent)        { mComponentsList.push_back(aComponent); }
         inline std::vector< CComponent* >   GetComponentList()                              { return mComponentsList; }
-        CComponent*                         FindFirstComponent(CComponent::EComponentType aType);
+        CComponent*                         FindFirstComponent(CComponent::EComponentType aType) const;
+        std::vector< CComponent* >          FindAllComponents(CComponent::EComponentType aType) const;
+        bool                                PointInGameObject(const SDL_Point* aPoint) const;
     };
 }
 
