@@ -41,6 +41,7 @@ namespace hugGameEngine
         bool    ResumeChunk (const char* aSoundName);
         bool    ResumeMusic (const char* aMusicName);
         void    SetVolume   (int aVolume);
+        bool    HasSound    (const char* aSoundName);
     };
 }
 #endif

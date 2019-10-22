@@ -38,17 +38,19 @@ namespace hugGameEngine
         Uint32              mLayer      = 0;
         EReference          mReference  = EReference::E_TOP_LEFT;
         bool                mActive     = true;
+        std::string         mName       = "";
     public:
                             CRenderable         (CGameObject* aOwner) : CComponent(aOwner){ mComponentType = CComponent::EComponentType::E_Renderable;  }
                            ~CRenderable         ();
-                            CRenderable(const CRenderable& aGo) = delete;
+                            CRenderable         (const CRenderable& aGo) = delete;
                             CRenderable& operator= (const CRenderable&) = delete;
-        int                 Load                (const json11::Json& aJSON, SDL_Renderer* aRenderer);
+        int                 Load                (const json11::Json& aJSON);
         void                OnRender            (SDL_Renderer* mRenderer) const;
         inline const int&   GetWidth            () const    { return mWidth; }
         inline const int&   GetHeight           () const    { return mHeight; }
         inline const SDL_RendererFlip& GetFlip  () const    { return mFlip; }
         inline Uint32       GetLayer            () const    { return mLayer; }
+        inline std::string  GetName             () const    { return mName; }
                bool         PointInPos          (const SDL_Point& aPoint) const;
 
     private:

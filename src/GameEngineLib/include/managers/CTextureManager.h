@@ -29,9 +29,11 @@ namespace hugGameEngine
 
         inline static CTextureManager* GetInstance() { return &CTextureManager::sInstance; }
 
-        CRenderable*    CreateTexture   (const json11::Json& aJSON, CGameObject* aGameObject, SDL_Renderer* aRenderer);
-        bool            DestroyTexture  (const CRenderable* aTexture);
-        void            OnRender        (SDL_Renderer* aRenderer) const;
+        CRenderable*                CreateTexture           (const json11::Json& aJSON, CGameObject* aGameObject);
+        bool                        DestroyTexture          (const CRenderable* aTexture);
+        void                        OnRender                (SDL_Renderer* aRenderer) const;
+        CRenderable*                FindTextureByName       (const char* aTextureName);
+        std::vector< CRenderable* > FindAllTextureByName    (const char* aTextureName);
     };
 }
 

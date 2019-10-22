@@ -10,27 +10,28 @@
 
 #include <json11/json11.hpp>
 #include <CScript.h>
+#include <CGameObject.h>
 
-namespace hugGameEngine {
-    class CGameObject;
-}
+#define PIECES_WIDTH_NUM 6
+#define PIECES_HEIGHT_NUM 5
 
 namespace MyGame {
+    using namespace hugGameEngine;
     class SMainController :
         public hugGameEngine::CScript
     {
     private:
-        int mPiecesWidth    = 0;
-        int mPiecesHeight   = 0;
+        CGameObject*    mGrid[PIECES_HEIGHT_NUM][PIECES_WIDTH_NUM];
     public:
-        SMainController (hugGameEngine::CGameObject* aOwner, const hugGameEngine::json11::Json& aJSON);
-        ~SMainController();
-        void OnCreate   ();
-        void OnEnable   ();
-        void OnDisable  ();
-        void OnDestroy  ();
-        void Loop       (Uint32 aRenderTime);
-        void OnEvent    (const SDL_Event* aEvent);
+                        SMainController         (CGameObject* aOwner, const json11::Json& aJSON);
+                       ~SMainController         ();
+        void            OnCreate                ();
+        void            OnEnable                ();
+        void            OnDisable               ();
+        void            OnDestroy               ();
+        void            Loop                    (Uint32 aRenderTime);
+        void            OnEvent                 (const SDL_Event* aEvent);
+        void            GetSurroundingPieces    (int aPosX, int aPosY, CGameObject*& aLeftGO, CGameObject*& aRightGO, CGameObject*& aTopGO, CGameObject*& aBottomGO) const;
     };
 }
 #endif

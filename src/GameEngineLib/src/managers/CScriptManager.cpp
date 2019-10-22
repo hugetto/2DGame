@@ -66,4 +66,28 @@ namespace hugGameEngine
             (*lIt)->OnEvent(aEvent);
         }
     }
+    CScript* CScriptManager::FindScripByName(const char* aScriptType)
+    {
+        for (std::vector< CScript* >::iterator lIt = mScriptList.begin();
+            lIt != mScriptList.end();
+            lIt++)
+        {
+            if (SDL_strcasecmp((*lIt)->GetScriptName(), aScriptType) == 0)
+                return (*lIt);
+        }
+        return nullptr;
+    }
+
+    std::vector< CScript* > CScriptManager::FindAllScripByName(const char* aScriptType)
+    {
+        std::vector< CScript* > lRet;
+        for (std::vector< CScript* >::iterator lIt = mScriptList.begin();
+            lIt != mScriptList.end();
+            lIt++)
+        {
+            if (SDL_strcasecmp((*lIt)->GetScriptName(), aScriptType) == 0)
+                lRet.push_back(*lIt);
+        }
+        return lRet;
+    }
 }

@@ -250,4 +250,27 @@ namespace hugGameEngine
     {
         mVolume = aVolume;
     }
+
+    bool CSound::HasSound(const char* aSoundName)
+    {
+        for (std::vector<std::string>::const_iterator lIt = mMusicNameList.begin();
+            lIt != mMusicNameList.end();
+            lIt++)
+        {
+            if (SDL_strcasecmp((*lIt).c_str(), aSoundName) == 0)
+            {
+                return true;
+            }
+        }
+        for (std::vector<std::string>::const_iterator lIt = mChunkNameList.begin();
+            lIt != mChunkNameList.end();
+            lIt++)
+        {
+            if (SDL_strcasecmp((*lIt).c_str(), aSoundName) == 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

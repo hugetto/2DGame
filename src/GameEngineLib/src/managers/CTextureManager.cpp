@@ -26,11 +26,11 @@ namespace hugGameEngine
         mRenderableList.clear();
     }
 
-    CRenderable* CTextureManager::CreateTexture(const json11::Json& aJSON, CGameObject* aGameObject, SDL_Renderer* aRenderer)
+    CRenderable* CTextureManager::CreateTexture(const json11::Json& aJSON, CGameObject* aGameObject)
     {
         mRenderableList.push_back(new CRenderable(aGameObject));
         CRenderable* lRenderObject = mRenderableList.back();
-        lRenderObject->Load(aJSON, aRenderer);
+        lRenderObject->Load(aJSON);
         std::sort(mRenderableList.begin(), mRenderableList.end(), SortTextureByLayers);
         return lRenderObject;
     }
@@ -62,5 +62,30 @@ namespace hugGameEngine
         {
             (*lIt)->OnRender(aRenderer);
         }
+    }
+
+    CRenderable* CTextureManager::FindTextureByName(const char* aTextureName)
+    {
+        for (std::vector< CRenderable* >::iterator lIt = mRenderableList.begin();
+            lIt != mRenderableList.end();
+            lIt++)
+        {
+            if (SDL_strcmp(aTextureName, (*lIt)->GetName().c_str()))
+                return (*lIt);
+        }
+        return nullptr;
+    }
+
+    std::vector< CRenderable* > CTextureManager::FindAllTextureByName(const char* aTextureName)
+    {
+        std::vector< CRenderable* > lRet;
+        for (std::vector< CRenderable* >::iterator lIt = mRenderableList.begin();
+            lIt != mRenderableList.end();
+            lIt++)
+        {
+            if (SDL_strcmp(aTextureName, (*lIt)->GetName().c_str()))
+                lRet.push_back(*lIt);
+        }
+        return lRet;
     }
 }

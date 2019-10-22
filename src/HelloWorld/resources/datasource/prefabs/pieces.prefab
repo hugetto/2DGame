@@ -9,7 +9,7 @@
     },
     {
         "type" : "Renderable",
-        "name" : "piece",
+        "attached_to" : "piece",
         "layer" : 1,
         "texture_file" : "./datasource/main_menu/piece1.png",
         "camera_position" : "fixed",
@@ -18,7 +18,7 @@
     },
     {
         "type" : "Renderable",
-        "name" : "piece",
+        "attached_to" : "piece",
         "layer" : 1,
         "texture_file" : "./datasource/main_menu/piece1.png",
         "camera_position" : "fixed",
@@ -28,12 +28,17 @@
     },
     {
         "type" : "Script",
-        "name" : "piece",
-        "script_name" : "SPieceController"
+        "attached_to" : "piece",
+        "script_name" : "SPieceController",
+        "params" : 
+        [
+            { "param_name" : "name1", "param_value" : 3 },
+            { "param_name" : "name2", "param_value" : "hello" }
+        ]
     },
     {
         "type" : "Sound",
-        "name" : "piece",
+        "attached_to" : "piece",
         "loop" : true,
         "sound_list" : 
         [

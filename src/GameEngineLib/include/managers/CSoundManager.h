@@ -30,9 +30,11 @@ namespace hugGameEngine
         CSoundManager(const CSoundManager& aGo) = delete;
         CSoundManager& operator=  (const CSoundManager&) = delete;
 
-        CSound*                 CreateSound     (const json11::Json& aJSON, CGameObject* aGameObject);
-        bool                    DestroySound    (const CSound* aTexture);
-        static CSoundManager*   GetInstance() { return &CSoundManager::sSoundManagerInstance; }
+        CSound*                 CreateSound         (const json11::Json& aJSON, CGameObject* aGameObject);
+        bool                    DestroySound        (const CSound* aTexture);
+        static CSoundManager*   GetInstance         () { return &CSoundManager::sSoundManagerInstance; }
+        CSound*                 FindSoundByName     (const char* aSoundName);
+        std::vector< CSound* >  FindAllSoundsByName (const char* aSoundName);
     };
 }
 

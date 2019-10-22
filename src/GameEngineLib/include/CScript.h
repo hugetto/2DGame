@@ -1,12 +1,13 @@
 //==============================================================================
 /*
-    Primary application class
+    Abstract CScript Class
     Hug Beneit
 */
 //==============================================================================
 #ifndef __CSCRIPT_H__
 #define __CSCRIPT_H__
 
+#include <json11/json11.hpp>
 #include <string>
 #include <SDL.h>
 #include <CComponent.h>
@@ -18,9 +19,10 @@ namespace hugGameEngine
     class CScript : public CComponent
     {
     protected:
-        const char* mScriptName;
+        const char*     mScriptName;
+        json11::Json    mParams;        //Params passed with the data
     public:
-        CScript(CGameObject* aOwner);
+        CScript(CGameObject* aOwner, const json11::Json& aParams);
         virtual     ~CScript();
         virtual void OnCreate   () = 0;
         virtual void OnEnable   () = 0;

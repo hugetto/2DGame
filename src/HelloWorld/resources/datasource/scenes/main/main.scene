@@ -9,8 +9,9 @@
     },
     {
         "type" : "Renderable",
-        "name" : "test",
-        "layer" : 0,
+        "attached_to" : "test",
+        "name" : "texture_name",
+        "layer" : 2,
         "texture_file" : "./datasource/main_menu/bg.jpg",
         "camera_position" : "fixed",
         "flip" : "SDL_FLIP_HORIZONTAL",
@@ -18,12 +19,12 @@
     },
     {
         "type" : "Script",
-        "name" : "test",
+        "attached_to" : "test",
         "script_name" : "SMainController"
     },
     {
         "type" : "Sound",
-        "name" : "test",
+        "attached_to" : "test",
         "loops" : true,
         "sound_list" : 
         [

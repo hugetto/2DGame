@@ -43,7 +43,7 @@ namespace hugGameEngine
         }
     }
 
-    int CRenderable::Load(const json11::Json& aJSON, SDL_Renderer* aRenderer)
+    int CRenderable::Load(const json11::Json& aJSON)
     {
         SDL_assert(mOwner);
         if (mOwner == nullptr)
@@ -62,6 +62,8 @@ namespace hugGameEngine
         const char* lTextureFile = aJSON["texture_file"].string_value(lOk, "").c_str();
         mUnique = aJSON["unique"].bool_value(lOk, false);
         mLayer = aJSON["layer"].int_value(lOk, 0);
+
+        mName = aJSON["name"].string_value();
 
         bool lReferenceOk = true;
         const char* lReference = aJSON["reference"].string_value(lReferenceOk, "top_left").c_str();
@@ -116,13 +118,15 @@ namespace hugGameEngine
                 return -1;
             }
 
-            SDL_Texture* lTexture = SDL_CreateTextureFromSurface(aRenderer, lTempSurface);
+            SDL_Renderer* lRenderer = CApp::GetInstance()->GetRenderer();
+            SDL_Texture* lTexture = SDL_CreateTextureFromSurface(lRenderer, lTempSurface);
             SDL_FreeSurface(lTempSurface);
             SDL_assert(lTexture);
         }
         else
         {
-            mTexture = CTextureProxy::GetInstance()->CreateTexture(lTextureFile, aRenderer);
+            SDL_Renderer* lRenderer = CApp::GetInstance()->GetRenderer();
+            mTexture = CTextureProxy::GetInstance()->CreateTexture(lTextureFile, lRenderer);
         }
         if (mTexture != 0)
         {

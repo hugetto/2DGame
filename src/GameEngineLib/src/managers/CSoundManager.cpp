@@ -45,4 +45,29 @@ namespace hugGameEngine
         }
         return lFound >= 0;
     }
+
+    CSound* CSoundManager::FindSoundByName(const char* aSoundName)
+    {
+        for (std::vector< CSound* >::iterator lIt = mChunkList.begin();
+            lIt != mChunkList.end();
+            lIt++)
+        {
+            if ((*lIt)->HasSound(aSoundName))
+                return (*lIt);
+        }
+        return nullptr;
+    }
+
+    std::vector< CSound* > CSoundManager::FindAllSoundsByName(const char* aSoundName)
+    {
+        std::vector< CSound* > lRet;
+        for (std::vector< CSound* >::iterator lIt = mChunkList.begin();
+            lIt != mChunkList.end();
+            lIt++)
+        {
+            if ((*lIt)->HasSound(aSoundName))
+                lRet.push_back(*lIt);
+        }
+        return lRet;
+    }
 }

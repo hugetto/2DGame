@@ -121,29 +121,30 @@ namespace MyGame {
         {
             if (SDL_strcasecmp(lItem["type"].string_value(lOk).c_str(), "renderable") == 0)
             {
-                CGameObject* lGO = CGameObjectManager::GetInstance()->FindGameObject(lItem["name"].string_value(lOk).c_str());
+                CGameObject* lGO = CGameObjectManager::GetInstance()->FindGameObject(lItem["attached_to"].string_value(lOk).c_str());
                 SDL_assert(lGO);
-                CRenderable* lTexture = CTextureManager::GetInstance()->CreateTexture(lItem, lGO, mCApp->GetRenderer());
+                CRenderable* lTexture = CTextureManager::GetInstance()->CreateTexture(lItem, lGO);
                 SDL_assert(lTexture);
                 lGO->AddComponent((CComponent*)lTexture);
             }
         }
-        for (json11::Json lItem : lJSON.array_items(lOk))
+        for (const json11::Json& lItem : lJSON.array_items(lOk))
         {
             if (SDL_strcasecmp(lItem["type"].string_value(lOk).c_str(), "script") == 0)
             {
-                CGameObject* lGO = CGameObjectManager::GetInstance()->FindGameObject(lItem["name"].string_value(lOk).c_str());
+                CGameObject* lGO = CGameObjectManager::GetInstance()->FindGameObject(lItem["attached_to"].string_value(lOk).c_str());
                 SDL_assert(lGO);
 
                 bool lOk = false;
                 const char* lFileName = lItem["script_name"].string_value(lOk, "").c_str();
+                const json11::Json& lParams = lItem["params"];
                 CScript* lNewScript = nullptr;
                 if (lOk)
                 {
                     if (SDL_strcasecmp(lFileName, "SMainController") == 0)
-                        lNewScript = new SMainController(lGO, lItem);
-                    if (SDL_strcasecmp(lFileName, "SPieceController") == 0)
-                        lNewScript = new SPieceController(lGO, lItem);
+                        lNewScript = new SMainController(lGO, lParams);
+                    else if (SDL_strcasecmp(lFileName, "SPieceController") == 0)
+                        lNewScript = new SPieceController(lGO, lParams);
                 }
                 SDL_assert(lNewScript);
                 lGO->AddComponent((CComponent*)lNewScript);
@@ -154,7 +155,7 @@ namespace MyGame {
         {
             if (SDL_strcasecmp(lItem["type"].string_value(lOk).c_str(), "sound") == 0)
             {
-                CGameObject* lGO = CGameObjectManager::GetInstance()->FindGameObject(lItem["name"].string_value(lOk).c_str());
+                CGameObject* lGO = CGameObjectManager::GetInstance()->FindGameObject(lItem["attached_to"].string_value(lOk).c_str());
                 SDL_assert(lGO);
                 CSound* lSound = CSoundManager::GetInstance()->CreateSound(lItem, lGO);
                 SDL_assert(lSound);
