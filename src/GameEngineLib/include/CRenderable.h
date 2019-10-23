@@ -44,7 +44,7 @@ namespace hugGameEngine
                            ~CRenderable         ();
                             CRenderable         (const CRenderable& aGo) = delete;
                             CRenderable& operator= (const CRenderable&) = delete;
-        int                 Load                (const json11::Json& aJSON);
+        bool                Load                (const json11::Json& aJSON) override;
         void                OnRender            (SDL_Renderer* mRenderer) const;
         inline const int&   GetWidth            () const    { return mWidth; }
         inline const int&   GetHeight           () const    { return mHeight; }

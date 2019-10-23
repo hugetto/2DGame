@@ -128,9 +128,7 @@ namespace hugGameEngine
     void CApp::Render()
     {
         if (SDL_RenderClear(mRenderer) != 0)
-        {
             SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Unable to Render SDL: %s", SDL_GetError());
-        }
         CTextureManager::GetInstance()->OnRender(mRenderer);
         SDL_RenderPresent(mRenderer);
     }

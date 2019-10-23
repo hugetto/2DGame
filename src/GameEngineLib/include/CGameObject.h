@@ -19,8 +19,6 @@ namespace hugGameEngine
     class CGameObject : public CComponent
     {
     private:
-        bool                        mEnabled                = false;  //C++ 11 allows this initializaiton
-        bool                        mPreviousFrameEnabled   = false;
         Vec2i                       mPosition               = Vec2i(0, 0);
         double                      mRotationAngle          = 0.f;
         Vec2                        mScale                  = Vec2( 1.f, 1.f );
@@ -37,15 +35,10 @@ namespace hugGameEngine
         inline const double&                GetRotationAngle() const                        { return mRotationAngle; }
         inline const std::string            GetName         () const                        { return mName; }
         inline const Vec2&                  GetScale        () const                        { return mScale; }
-        inline bool                         Enabled         () const                        { return mEnabled; }
         inline double                       GetDirection    () const                        { return mRotationAngle; }
         inline void                         SetDirection    (double aAngle)                 { mRotationAngle = aAngle; }
-        void                                OnCreate        ()                              {}
-        void                                OnEnable        ()                              {}
-        void                                OnDisable       ()                              {}
         void                                SetName         (const std::string& aName)      { mName = aName; }
-        bool                                Load            (const json11::Json& aJSON);
-        void                                Loop            (Uint32 aRenderTime);
+        bool                                Load            (const json11::Json& aJSON) override;
         inline void                         AddComponent    (CComponent* aComponent)        { mComponentsList.push_back(aComponent); }
         inline std::vector< CComponent* >   GetComponentList()                              { return mComponentsList; }
         CComponent*                         FindFirstComponent(CComponent::EComponentType aType) const;

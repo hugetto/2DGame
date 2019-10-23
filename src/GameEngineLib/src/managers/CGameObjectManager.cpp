@@ -18,6 +18,7 @@ namespace hugGameEngine
         for (CGameObject* lPointer : mGameObjectList)
         {
             delete(lPointer);
+            lPointer = 0;
         }
         mGameObjectList.clear();
     }
@@ -86,6 +87,10 @@ namespace hugGameEngine
             lIt != mGameObjectList.end();
             lIt++)
         {
+            if ((*lIt)->ShouldCallOnEnable())
+                (*lIt)->OnEnable();
+            else if ((*lIt)->ShouldCallOnDisable())
+                    (*lIt)->OnDisable();
             (*lIt)->Loop(aRenderTime);
         }
     }

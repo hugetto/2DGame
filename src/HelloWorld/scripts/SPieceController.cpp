@@ -30,6 +30,10 @@ namespace MyGame {
     }
     void SPieceController::OnEnable()
     {
+        CComponent* lRenderer = mOwner->FindFirstComponent(CComponent::EComponentType::E_Renderable);
+        SDL_assert(lRenderer);
+        Vec2i lPos(mPieceLogicPositionX * static_cast<CRenderable*>(lRenderer)->GetWidth(), mPieceLogicPositionY* static_cast<CRenderable*>(lRenderer)->GetHeight());
+        mOwner->SetPosition(lPos);
     }
     void SPieceController::OnDisable()
     {

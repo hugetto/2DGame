@@ -225,6 +225,7 @@
     </ClCompile>
     <ClCompile Include="src\CApp.cpp" />
     <ClCompile Include="src\CCamera.cpp" />
+    <ClCompile Include="src\CComponent.cpp" />
     <ClCompile Include="src\CGameObject.cpp" />
     <ClCompile Include="src\CRenderable.cpp" />
     <ClCompile Include="src\CScript.cpp" />

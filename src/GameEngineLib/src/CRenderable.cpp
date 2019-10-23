@@ -28,7 +28,6 @@ namespace hugGameEngine
     {
         if (mActive && mOwner->Enabled())
         {
-            
             const SDL_Rect lPos = GetRectPosition();
             const SDL_Rect lWindow = CApp::GetInstance()->GetWindowRect();
             //Don't render if outside the view
@@ -43,16 +42,15 @@ namespace hugGameEngine
         }
     }
 
-    int CRenderable::Load(const json11::Json& aJSON)
+    bool CRenderable::Load(const json11::Json& aJSON)
     {
+        bool lOk = CComponent::Load(aJSON);
         SDL_assert(mOwner);
         if (mOwner == nullptr)
         {
             SDL_LogDebug(SDL_LOG_CATEGORY_RENDER, "Game Object Must be valid");
-            return -1;
+            return false;
         }
-
-        bool lOk = false;
 
         if (SDL_strcasecmp(aJSON["camera_position"].string_value(lOk, "absolute").c_str(), "fixed") == 0)
             mPosition = EPosition::E_FIXED;
@@ -115,7 +113,7 @@ namespace hugGameEngine
             if (lTempSurface == 0)
             {
                 SDL_LogDebug(SDL_LOG_CATEGORY_RENDER, "Cannot load the image file %s, sdl_error: %s", lTextureFile, SDL_GetError());
-                return -1;
+                return false;
             }
 
             SDL_Renderer* lRenderer = CApp::GetInstance()->GetRenderer();
@@ -133,18 +131,18 @@ namespace hugGameEngine
             if (SDL_QueryTexture(mTexture, NULL, NULL, &mWidth, &mHeight) != 0)
             {
                 SDL_LogDebug(SDL_LOG_CATEGORY_RENDER, "Cannot query the image file %s, sdl_error: %s", lTextureFile, SDL_GetError());
-                return -1;
+                return false;
             }
             mSourcePos.x = 0;
             mSourcePos.y = 0;
             mSourcePos.w = mWidth;
             mSourcePos.h = mHeight;
-            return 0;
+            return true;
         }
         else
         {
             SDL_LogDebug(SDL_LOG_CATEGORY_RENDER, "Error loading image %s, sdl_error: %s", lTextureFile, SDL_GetError());
-            return -1;
+            return false;
         }
 
     }

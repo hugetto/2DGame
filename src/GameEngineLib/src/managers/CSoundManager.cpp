@@ -12,9 +12,10 @@ namespace hugGameEngine
 
     CSoundManager::~CSoundManager()
     {
-        for (CSound* lSound : mChunkList)
+        for (CSound* lPointer : mChunkList)
         {
-            delete (lSound);
+            delete (lPointer);
+            lPointer = 0;
         }
         mChunkList.clear();
     }
@@ -23,7 +24,7 @@ namespace hugGameEngine
     {
         mChunkList.push_back(new CSound(aGameObject));
         CSound* lSound = mChunkList.back();
-        lSound->Load(aJSON, aGameObject);
+        lSound->Load(aJSON);
         return lSound;
     }
 

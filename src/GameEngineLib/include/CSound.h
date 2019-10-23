@@ -33,7 +33,7 @@ namespace hugGameEngine
                ~CSound      ();
                 CSound      (const CSound& aGo) = delete;
         CSound& operator=   (const CSound&)     = delete;
-        bool    Load        (const json11::Json& aJSON, const CGameObject* aGameObject);
+        bool    Load        (const json11::Json& aJSON) override;
         bool    PlayChunk   (const char* aMusicName);
         bool    PlayMusic   (const char* aSoundName);
         bool    PauseChunk  (const char* aSoundName);

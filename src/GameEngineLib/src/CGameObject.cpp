@@ -6,9 +6,7 @@ namespace hugGameEngine
 {
     bool CGameObject::Load(const json11::Json& aJSON)
     {
-        bool lOk = false;
-        mEnabled = aJSON["enabled"].bool_value(lOk, true);
-        mPreviousFrameEnabled = mEnabled;
+        bool lOk = CComponent::Load(aJSON);
         mPosition = Vec2i(aJSON["position"].array_items(lOk)[0].int_value(lOk, 0)
                         , aJSON["position"].array_items(lOk)[1].int_value(lOk, 0));
         mRotationAngle = aJSON["rotation"].number_value(lOk, 0.f);
@@ -16,10 +14,6 @@ namespace hugGameEngine
                      , static_cast<float>(aJSON["scale"].array_items(lOk)[1].number_value(lOk, 1.f)));
         mName = aJSON["name"].string_value(lOk);
         return lOk;
-    }
-
-    void CGameObject::Loop(Uint32 aRenderTime)
-    {
     }
 
     CComponent* CGameObject::FindFirstComponent(CComponent::EComponentType aType) const

@@ -74,6 +74,9 @@
     <ClCompile Include="src\managers\CGameObjectManager.cpp">
       <Filter>src\managers</Filter>
     </ClCompile>
+    <ClCompile Include="src\CComponent.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

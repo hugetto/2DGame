@@ -20,10 +20,9 @@ namespace hugGameEngine
         mPlayingChunksChannel.clear();
     }
 
-    bool CSound::Load(const json11::Json& aJSON, const CGameObject* aGameObject)
+    bool CSound::Load(const json11::Json& aJSON)
     {
-        bool lOk = false;
-
+        bool lOk = CComponent::Load(aJSON);
         const json11::Json& lSoundRes = aJSON["sound_list"];
         for (const json11::Json& lItem : lSoundRes.array_items(lOk))
         {

@@ -18,6 +18,7 @@ namespace hugGameEngine
         for (CScript* lPointer : mScriptList)
         {
             delete(lPointer);
+            lPointer = 0;
         }
         mScriptList.clear();
     }
@@ -53,6 +54,10 @@ namespace hugGameEngine
             lIt != mScriptList.end();
             lIt++)
         {
+            if ((*lIt)->ShouldCallOnEnable())
+                (*lIt)->OnEnable();
+            else if ((*lIt)->ShouldCallOnDisable())
+                (*lIt)->OnDisable();
             (*lIt)->Loop(aRenterTime);
         }
     }

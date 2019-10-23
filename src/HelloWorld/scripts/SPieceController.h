@@ -23,6 +23,7 @@ namespace MyGame {
     {
     private:
         enum class EMoveDirection       { E_HORIZONTAL, E_VERTICAL, E_UNKNOWN };
+        enum class EAction              {};
         
         int                 mPieceLogicPositionX    = -1;
         int                 mPieceLogicPositionY    = -1;
@@ -34,7 +35,6 @@ namespace MyGame {
         CGameObject*        mRightPiece             = nullptr;
         CGameObject*        mTopPiece               = nullptr;
         CGameObject*        mBottomPiece            = nullptr;
-        //SDL_P
     public:
                         SPieceController    (hugGameEngine::CGameObject* aOwner, const hugGameEngine::json11::Json& aJSON);
                        ~SPieceController    ();
@@ -42,13 +42,13 @@ namespace MyGame {
                 void    OnEnable            ();
                 void    OnDisable           ();
                 void    OnDestroy           ();
-                void    Loop                (Uint32 aRenderTime);
+                void    Loop                (Uint32 aRenderTime) override;
                 void    OnEvent             (const SDL_Event* aEvent);
         inline  void    SetInitialPosition  (const Vec2i& aPos)                 { mInitialPosition = aPos; }
                 void    SetSelected         (bool aSelected);
         inline  void    SetMovementDirection(const EMoveDirection& aDirection)  { mDirection = aDirection; }
         inline  void    SetPiecePosition    (int aPosX, int aPosY)              { mPieceLogicPositionX = aPosX; mPieceLogicPositionY = aPosY; }
-        inline  void    SetTemporaryPosition(int aPosX, int aPosY) { mPieceLogicPositionX = aPosX; mPieceLogicPositionY = aPosY; }
+        inline  void    SetTemporaryPosition(int aPosX, int aPosY)              { mPieceLogicPositionX = aPosX; mPieceLogicPositionY = aPosY; }
     };
 }
 #endif

@@ -22,6 +22,7 @@ namespace hugGameEngine
         for (CRenderable* lPointer : mRenderableList)
         {
             delete(lPointer);
+            lPointer = 0;
         }
         mRenderableList.clear();
     }
@@ -60,6 +61,10 @@ namespace hugGameEngine
             lIt != mRenderableList.end();
             lIt++)
         {
+            if ((*lIt)->ShouldCallOnEnable())
+                (*lIt)->OnEnable();
+            else if ((*lIt)->ShouldCallOnDisable())
+                (*lIt)->OnDisable();
             (*lIt)->OnRender(aRenderer);
         }
     }

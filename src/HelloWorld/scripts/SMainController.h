@@ -12,7 +12,7 @@
 #include <CScript.h>
 #include <CGameObject.h>
 
-#define PIECES_WIDTH_NUM 6
+#define PIECES_WIDTH_NUM 5
 #define PIECES_HEIGHT_NUM 5
 
 namespace MyGame {

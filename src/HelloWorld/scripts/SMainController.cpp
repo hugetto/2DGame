@@ -21,7 +21,13 @@ namespace MyGame {
 
     SMainController::~SMainController()
     {
-
+        /*for (int i = 0; i < PIECES_HEIGHT_NUM; i++)
+        {
+            for (int j = 0; j < PIECES_WIDTH_NUM; j++)
+            {
+                delete(mGrid[i][j]);
+            }
+        }*/
     }
     void SMainController::OnCreate()
     {
@@ -34,10 +40,6 @@ namespace MyGame {
                 CGameObject* lPiece = CGameObjectManager::GetInstance()->FindGameObject("piece");
                 SDL_assert(lPiece);
                 lPiece->SetName(std::string("piece_") + std::to_string(i) + std::string("_") + std::to_string(j));
-                CComponent* lRenderer = lPiece->FindFirstComponent(CComponent::EComponentType::E_Renderable);
-                SDL_assert(lRenderer);
-                Vec2i lPos (i * static_cast<CRenderable*>(lRenderer)->GetWidth(), j * static_cast<CRenderable*>(lRenderer)->GetHeight());
-                lPiece->SetPosition(lPos);
 
                 SPieceController* lScript = dynamic_cast<SPieceController*>(lPiece->FindFirstComponent(CComponent::EComponentType::E_Script));
                 SDL_assert(lScript);
