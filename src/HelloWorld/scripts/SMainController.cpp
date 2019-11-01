@@ -14,22 +14,15 @@ using namespace hugGameEngine;
 
 namespace MyGame {
 
-    SMainController::SMainController(hugGameEngine::CGameObject* aOwner, const hugGameEngine::json11::Json& aJSON) : CScript(aOwner, aJSON)
+    SMainController::SMainController(hugGameEngine::CGameObject* aOwner) : CScript(aOwner)
     {
         mScriptName = "SMainController";
     }
 
     SMainController::~SMainController()
     {
-        /*for (int i = 0; i < PIECES_HEIGHT_NUM; i++)
-        {
-            for (int j = 0; j < PIECES_WIDTH_NUM; j++)
-            {
-                delete(mGrid[i][j]);
-            }
-        }*/
     }
-    void SMainController::OnCreate()
+    void SMainController::OnCreate(const json11::Json& aJSON)
     {
         //Create all the pieces from the board
         for (int i = 0; i < PIECES_WIDTH_NUM; i++)
@@ -96,23 +89,53 @@ namespace MyGame {
         }
     }
 
-    void SMainController::GetSurroundingPieces(int aPosX, int aPosY, CGameObject*& aLeftGO, CGameObject*& aRightGO, CGameObject*& aTopGO, CGameObject*& aBottomGO) const
+    void SMainController::GetSurroundingPieces(const Vec2i& aPiece, CGameObject*& aLeftGO, CGameObject*& aRightGO, CGameObject*& aTopGO, CGameObject*& aBottomGO) const
     {
-        if (aPosX == 0)
+        if (aPiece.x == 0)
             aLeftGO = nullptr;
         else
-            aLeftGO     = mGrid[aPosX - 1]  [aPosY];
-        if (aPosX == PIECES_HEIGHT_NUM)
+            aLeftGO = mGrid[aPiece.x - 1][aPiece.y];
+        if (aPiece.x == PIECES_WIDTH_NUM - 1)
             aRightGO = nullptr;
         else
-            aRightGO    = mGrid[aPosX + 1]  [aPosY];
-        if (aPosY == 0)
+            aRightGO = mGrid[aPiece.x + 1][aPiece.y];
+        if (aPiece.y == 0)
             aTopGO = nullptr;
         else
-            aTopGO      = mGrid[aPosX]      [aPosY - 1];
-        if (aPosY == PIECES_WIDTH_NUM)
+            aTopGO = mGrid[aPiece.x][aPiece.y - 1];
+        if (aPiece.y == PIECES_HEIGHT_NUM - 1)
             aBottomGO = nullptr;
         else
-            aBottomGO   = mGrid[aPosX]      [aPosY + 1];
+            aBottomGO = mGrid[aPiece.x][aPiece.y + 1];
+    }
+
+    bool SMainController::CheckScene()
+    {
+        bool lRemoved = false;
+        //Check vertical
+        for (int i = 0; i < PIECES_WIDTH_NUM; ++i)
+        {
+            for (int j = 0; j < PIECES_HEIGHT_NUM; ++j)
+            {
+
+            }
+        }
+        //Check horizontal
+        for (int j = 0; j < PIECES_HEIGHT_NUM; ++j)
+        {
+            for (int i = 0; i < PIECES_WIDTH_NUM; ++i)
+            {
+
+            }
+        }
+
+        return lRemoved;
+    }
+
+    void SMainController::Swap(const Vec2i& aPiece1, const Vec2i& aPiece2)
+    {
+        CGameObject* lSwapObj = mGrid[aPiece1.x][aPiece1.y];
+        mGrid[aPiece1.x][aPiece1.y] = mGrid[aPiece2.x][aPiece2.y];
+        mGrid[aPiece2.x][aPiece2.y] = lSwapObj;
     }
 }

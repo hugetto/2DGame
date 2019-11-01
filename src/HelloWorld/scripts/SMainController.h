@@ -23,15 +23,17 @@ namespace MyGame {
     private:
         CGameObject*    mGrid[PIECES_HEIGHT_NUM][PIECES_WIDTH_NUM];
     public:
-                        SMainController         (CGameObject* aOwner, const json11::Json& aJSON);
+                        SMainController         (CGameObject* aOwner);
                        ~SMainController         ();
-        void            OnCreate                ();
+        void            OnCreate                (const json11::Json& aJSON);
         void            OnEnable                ();
         void            OnDisable               ();
         void            OnDestroy               ();
         void            Loop                    (Uint32 aRenderTime);
         void            OnEvent                 (const SDL_Event* aEvent);
-        void            GetSurroundingPieces    (int aPosX, int aPosY, CGameObject*& aLeftGO, CGameObject*& aRightGO, CGameObject*& aTopGO, CGameObject*& aBottomGO) const;
+        void            GetSurroundingPieces    (const Vec2i& aPiece, CGameObject*& aLeftGO, CGameObject*& aRightGO, CGameObject*& aTopGO, CGameObject*& aBottomGO) const;
+        bool            CheckScene              ();
+        void            Swap                    (const Vec2i& aPiece1, const Vec2i& aPiece2);
     };
 }
 #endif

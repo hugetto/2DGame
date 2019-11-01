@@ -18,37 +18,45 @@ namespace hugGameEngine {
 using namespace hugGameEngine;
 
 namespace MyGame {
+    class SMainController;
+
     class SPieceController :
         public hugGameEngine::CScript
     {
     private:
-        enum class EMoveDirection       { E_HORIZONTAL, E_VERTICAL, E_UNKNOWN };
-        enum class EAction              {};
+        enum class EAction              { E_MOVE_LEFT, E_MOVE_RIGHT, E_MOVE_TOP, E_MOVE_BOTTOM, E_DELETE, E_NONE };
         
-        int                 mPieceLogicPositionX    = -1;
-        int                 mPieceLogicPositionY    = -1;
-        EMoveDirection      mDirection              = EMoveDirection::E_UNKNOWN;
+        Vec2i               mPieceLogicPosition     = Vec2i(-1, -1);
+        EAction             mAction                 = EAction::E_NONE;
+        bool                mComingBack              = false;
+        float               mVelocity               = 0.1f;
         bool                mSelected               = false;
         Vec2i               mInitialPosition        = Vec2i();
         Vec2i               mInitialMousePosition   = Vec2i();
+        Vec2i               mTextureWidthHeigh      = Vec2i();
         CGameObject*        mLeftPiece              = nullptr;
         CGameObject*        mRightPiece             = nullptr;
         CGameObject*        mTopPiece               = nullptr;
         CGameObject*        mBottomPiece            = nullptr;
+        SPieceController*   mLeftPieceScript        = nullptr;
+        SPieceController*   mRightPieceScript       = nullptr;
+        SPieceController*   mTopPieceScript         = nullptr;
+        SPieceController*   mBottomPieceScript      = nullptr;
+        SMainController*    mMainController         = nullptr;
     public:
-                        SPieceController    (hugGameEngine::CGameObject* aOwner, const hugGameEngine::json11::Json& aJSON);
+                        SPieceController    (hugGameEngine::CGameObject* aOwner);
                        ~SPieceController    ();
-                void    OnCreate            ();
+                void    OnCreate            (const hugGameEngine::json11::Json& aJSON);
                 void    OnEnable            ();
                 void    OnDisable           ();
                 void    OnDestroy           ();
+        inline  void    SetAction           (EAction aAction) { mAction = aAction; }
                 void    Loop                (Uint32 aRenderTime) override;
                 void    OnEvent             (const SDL_Event* aEvent);
         inline  void    SetInitialPosition  (const Vec2i& aPos)                 { mInitialPosition = aPos; }
                 void    SetSelected         (bool aSelected);
-        inline  void    SetMovementDirection(const EMoveDirection& aDirection)  { mDirection = aDirection; }
-        inline  void    SetPiecePosition    (int aPosX, int aPosY)              { mPieceLogicPositionX = aPosX; mPieceLogicPositionY = aPosY; }
-        inline  void    SetTemporaryPosition(int aPosX, int aPosY)              { mPieceLogicPositionX = aPosX; mPieceLogicPositionY = aPosY; }
+        inline  void    SetPiecePosition    (int aPosX, int aPosY)              { mPieceLogicPosition.x = aPosX; mPieceLogicPosition.y = aPosY; }
+        inline  Vec2i   GetPiecePosition    ()                                  { return mPieceLogicPosition; }
     };
 }
 #endif

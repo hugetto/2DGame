@@ -35,13 +35,12 @@ namespace hugGameEngine
         ~CApp();
                 CApp    (const CApp& aGo)   = delete;
         CApp& operator= (const CApp&)       = delete;
-        int Execute(int argc, char* argv[]);
 
         // Capture SDL Events
         void OnEvent(const SDL_Event* aEvent);
 
         // Initialize our SDL game / app
-        bool Init();
+        bool Init(int argc, char* argv[]);
 
         // Logic loop
         void Loop(Uint32 aRenderTime);

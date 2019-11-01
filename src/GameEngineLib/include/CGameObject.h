@@ -66,9 +66,9 @@ namespace hugGameEngine
             std::vector < CComponent* > lAllScripts = FindAllComponents(CComponent::EComponentType::E_Script);
             for (CComponent* lComponent : lAllScripts)
             {
-                if (SDL_strcasecmp(static_cast<CScript*>(lComponent)->GetScriptName(), aScriptName) == 0)
+                if (SDL_strcasecmp(dynamic_cast<CScript*>(lComponent)->GetScriptName(), aScriptName) == 0)
                 {
-                    return static_cast<T*>(lComponent);
+                    return dynamic_cast<T*>(lComponent);
                 }
             }
             return nullptr;

@@ -34,7 +34,7 @@ namespace hugGameEngine
     }
 
     //------------------------------------------------------------------------------
-    bool CApp::Init()
+    bool CApp::Init(int argc, char* argv[])
     {
         //Read Main Configuration File
         std::ifstream lMainCfg(MAIN_CFG);

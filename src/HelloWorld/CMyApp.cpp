@@ -29,7 +29,7 @@ namespace MyGame {
     int CMyApp::Execute(int argc, char* argv[])
     {
         mCApp = CApp::GetInstance();
-        if (!Init())
+        if (!Init(argc, argv))
             return 0;
 
         SDL_Event lEvent;
@@ -67,9 +67,9 @@ namespace MyGame {
         mCApp->OnEvent(aEvent);
     }
 
-    bool CMyApp::Init()
+    bool CMyApp::Init(int argc, char* argv[])
     {
-        bool lOk = mCApp->Init();
+        bool lOk = mCApp->Init(argc, argv);
 
         //Load main scene config file
         lOk = lOk && CreateObject(MAIN_SCENE);
@@ -142,13 +142,13 @@ namespace MyGame {
                 if (lOk)
                 {
                     if (SDL_strcasecmp(lFileName, "SMainController") == 0)
-                        lNewScript = new SMainController(lGO, lParams);
+                        lNewScript = new SMainController(lGO);
                     else if (SDL_strcasecmp(lFileName, "SPieceController") == 0)
-                        lNewScript = new SPieceController(lGO, lParams);
+                        lNewScript = new SPieceController(lGO);
                 }
                 SDL_assert(lNewScript);
                 lGO->AddComponent((CComponent*)lNewScript);
-                CScriptManager::GetInstance()->RegisterScript(lNewScript);
+                CScriptManager::GetInstance()->RegisterScript(lNewScript, lParams);
             }
         }
         for (json11::Json lItem : lJSON.array_items(lOk))

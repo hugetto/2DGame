@@ -20,11 +20,10 @@ namespace hugGameEngine
     {
     protected:
         const char*     mScriptName;
-        json11::Json    mParams;        //Params passed with the data
     public:
-        CScript(CGameObject* aOwner, const json11::Json& aParams);
+        CScript(CGameObject* aOwner);
         virtual     ~CScript();
-        virtual void OnCreate   () = 0;
+        virtual void OnCreate   (const hugGameEngine::json11::Json& aJSON) = 0;
         virtual void OnEnable   () = 0;
         virtual void OnDisable  () = 0;
         virtual void OnDestroy  () = 0;

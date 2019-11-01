@@ -3,7 +3,7 @@
 
 namespace hugGameEngine
 {
-    CScript::CScript(CGameObject* aOwner, const json11::Json& aParams) : CComponent(aOwner), mParams(aParams)
+    CScript::CScript(CGameObject* aOwner) : CComponent(aOwner)
     { 
         mComponentType = CComponent::EComponentType::E_Script;
         mScriptName = "CScript";

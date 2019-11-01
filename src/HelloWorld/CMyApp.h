@@ -26,7 +26,7 @@ namespace MyGame {
 
         int             Execute         (int argc, char* argv[]);
         void            OnEvent         (SDL_Event* aEvent);
-        bool            Init            ();
+        bool            Init            (int argc, char* argv[]);
         void            Loop            (Uint32 aRenderTime);
         void            Render          ();
         void            Cleanup         ();

@@ -29,7 +29,7 @@ namespace hugGameEngine
 
         inline static CScriptManager* GetInstance() { return &CScriptManager::sInstance; }
 
-        void                    RegisterScript      (CScript* aScript);
+        void                    RegisterScript      (CScript* aScript, const hugGameEngine::json11::Json& aJSON = 0);
         bool                    DestroyScript       (const CScript* aScript);
         void                    Loop                (Uint32 aRenterTime);
         void                    OnEvent             (const SDL_Event* aEvent);

@@ -23,10 +23,10 @@ namespace hugGameEngine
         mScriptList.clear();
     }
 
-    void CScriptManager::RegisterScript(CScript* aScript)
+    void CScriptManager::RegisterScript(CScript* aScript, const hugGameEngine::json11::Json& aJSON)
     {
         mScriptList.push_back (aScript);
-        aScript->OnCreate();
+        aScript->OnCreate(aJSON);
     }
 
     bool CScriptManager::DestroyScript(const CScript* aScript)
